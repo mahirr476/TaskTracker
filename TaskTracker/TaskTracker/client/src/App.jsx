@@ -5,9 +5,11 @@ import Trash from "./pages/Trash"
 import Users from "./pages/Users"
 import Dashboard from "./pages/Dashboard"
 import Sidebar from "./components/Sidebar"
+import Navbar from './components/Navbar'
 import {useSelector} from 'react-redux'
 import {Route, Routes, Navigate, useLocation, Outlet} from 'react-router-dom'
 import {Toaster} from "sonner"
+import { setOpenSidebar } from './redux/slices/authSlice'
 
 function Layout() { // Main functions
   const user = useSelector((state) => state.auth)
@@ -22,7 +24,7 @@ function Layout() { // Main functions
         {/* <MobielSidebar/> */}
 
       <div className='flex-1 overflow-y-auto'>
-        {/* <Navbar/> */}
+        <Navbar/>
         <div className="p-4 2xl:px-10">
           <Outlet/>
         </div>
@@ -32,6 +34,17 @@ function Layout() { // Main functions
     <Navigate to="/log-in" state={{from: location}} replace/> 
   )
 }
+
+const MobielSidebar = () => {
+  const {isSidebarOpen } = useSelector((state) => state.auth)
+  const mobileMenuRef = useRef(null)
+  const dispatch = useDispatch();
+
+  const closeSidebar = () => { 
+    dispatch(setOpenSidebar(false))
+  }
+}
+
 function App() {
 
   return (

@@ -1,8 +1,9 @@
-import React from 'react'
+import React from 'react';
 import {MdOutlineSearch } from "react-icons/md"
 import {useDispatch, useSelector} from "react-redux"
 import { FiLayers } from "react-icons/fi";
 import UserAvatar from './UserAvatar';
+import NotificationPanel from './NotificationPanel'
 import { setOpenSidebar } from '../redux/slices/authSlice';
 
 const Navbar = () => {
@@ -25,7 +26,7 @@ const Navbar = () => {
         </div>
         
         <div className="flex gap-2 items-center">
-            {/* <NotificationPanel /> */}
+            <NotificationPanel />
 
             <UserAvatar />
         </div>

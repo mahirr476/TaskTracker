@@ -1,68 +1,4 @@
 # Fullstack Task Manager
-### 
-## ** Features Implementation Progress **
-1. **User Management:** (0/2)
-    - Create admin accounts.
-    - Add and manage team members.
-
-2. **Task Assignment:** (0/2)
-    - Assign tasks to individual or multiple users.
-    - Update task details and status.
-    - Assign team members to tasks
-    - Add column for which project task is assigned to (if no project -> "NA" indication)
-    - Add a new Task button functionality
-
-3. **Task Properties:** (2/3)
-    - Label tasks as todo, in progress, or completed.
-    - Assign priority levels (high, medium, normal, low).
-    - Add and manage sub-tasks.
-
-4. **Asset Management:** (0/2)
-    - Upload task assets, such as images.
-    - Change Task Assets view from img -> {icon} - Filename.filetype
-
-5. **User Account Control:** (0/5)
-    - Disable or activate user accounts.
-    - Add a new account
-    - Login and Logout Account
-    - User Differentiated Data
-    - Permanently delete or trash tasks.
-
-
-## **User Features:**
-1. **Task Interaction:**
-    - Edit Task information/Delete Tasks
-    - Change task status (in progress or completed)/high-med-low priority change
-    - View detailed task information with Timeline
-
-
-2. **Communication:**
-    - Add comments or chat to task activities.
-        - Edit timeline to also mention which team member posted a comment
-
-## **General Features:**
-1. **Authentication and Authorization:**
-    - User login with secure authentication.
-    - Role-based access control.
-
-2. **Profile Management:**
-    - Update user profiles (name, image, password)
-
-3. **Password Management:**
-    - Change passwords securely.
-
-4. **Dashboard:**
-    - Provide a summary of user activities.
-    - Filter tasks into todo, in progress, or completed.
-    
-5. **Projects**
-    - View current Projects
-    - Create Manager role to assign projects
-    - Create detailed ProjectDetails.jsx page
-    - Project Task features 
-
-
-
 ## **Technologies Used:**
 - **Frontend:**
     - React (Vite)
@@ -135,6 +71,68 @@
     - Ability to delete tasks permanently or restore deleted tasks. 
         
     
-important: 
+#important: 
+Each page utilizes a number of different generated components. carefully study them to see how they are utilized and contact me for questions -> mahir@paragon.com.bd 
 
-each page utilizes a number of different generated components. carefully study them to see how they are utilized and contact me for questions -> mahir@paragon.com.bd 
+
+## ** Features Implementation Progress **
+1. **User Management:** (0/2)
+    - Create admin accounts.
+    - Add and manage team members.
+
+2. **Task Assignment:** (0/2)
+    - Assign tasks to individual or multiple users.
+    - Update task details and status.
+    - Assign team members to tasks
+    - Add column for which project task is assigned to (if no project -> "NA" indication)
+    - Add a new Task button functionality
+
+3. **Task Properties:** (2/3)
+    - Label tasks as todo, in progress, or completed.
+    - Assign priority levels (high, medium, normal, low).
+    - Add and manage sub-tasks.
+
+4. **Asset Management:** (0/2)
+    - Upload task assets, such as images.
+    - Change Task Assets view from img -> {icon} - Filename.filetype
+
+5. **User Account Control:** (0/5)
+    - Disable or activate user accounts.
+    - Add a new account
+    - Login and Logout Account
+    - User Differentiated Data
+    - Permanently delete or trash tasks.
+
+
+## **User Features:**
+1. **Task Interaction:**
+    - Edit Task information/Delete Tasks
+    - Change task status (in progress or completed)/high-med-low priority change
+    - View detailed task information with Timeline
+
+
+2. **Communication:**
+    - Add comments or chat to task activities.
+        - Edit timeline to also mention which team member posted a comment
+
+## **General Features:**
+1. **Authentication and Authorization:**
+    - User login with secure authentication.
+    - Role-based access control.
+
+2. **Profile Management:**
+    - Update user profiles (name, image, password)
+
+3. **Password Management:**
+    - Change passwords securely.
+
+4. **Dashboard:**
+    - Provide a summary of user activities.
+    - Filter tasks into todo, in progress, or completed.
+    
+5. **Projects**
+    - View current Projects
+    - Create Manager role to assign projects
+    - Create detailed ProjectDetails.jsx page
+    - Project Task features 
+

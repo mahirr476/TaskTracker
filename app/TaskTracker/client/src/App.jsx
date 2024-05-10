@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import Login from './pages/Login'
 import TaskDetails from "./pages/TaskDetails"
 import Tasks from "./pages/Tasks"
@@ -7,7 +7,8 @@ import Users from "./pages/Users"
 import Dashboard from "./pages/Dashboard"
 import Sidebar from "./components/Sidebar"
 import Navbar from './components/Navbar'
-import {useRef} from "react"
+import Projects from './pages/Projects'
+import KPI from './pages/KPI'
 import clsx from "clsx"
 import {useSelector, useDispatch} from 'react-redux'
 import {Route, Routes, Navigate, useLocation, Outlet} from 'react-router-dom'
@@ -16,6 +17,8 @@ import { Fragment } from 'react'
 import { Transition } from '@headlessui/react'
 import {IoClose} from 'react-icons/io5'
 import { setOpenSidebar } from './redux/slices/authSlice'
+import Calendar from './pages/Calendar'
+import { weekData } from './assets/data'
 
 function Layout() { // Main functions
   const user = useSelector((state) => state.auth)
@@ -60,13 +63,12 @@ const MobielSidebar = () => {
       leave='transition-opacity duration-700'
       leaveFrom='opacity-100'
       leaveTo='opacity-0'
-
     >
 
       {(ref)=> (
         <div
         ref={(node)=> (mobileMenuRef.current = node)}
-        className={clsx('md:hidden fixed inset-0 z-40 transition-all duration-700 transform',
+        className={clsx('lg:hidden fixed inset-0 z-40 transition-all duration-700 transform',
         isSidebarOpen ? "translate-x-0" : "-translate-x-full")}
 
         onClick= {() => closeSidebar()}
@@ -91,9 +93,6 @@ const MobielSidebar = () => {
 
     </Transition>
   </>
-
-
-
 }
 
 function App() {
@@ -101,7 +100,7 @@ function App() {
   return (
     <main className='w-full min-h-screen bg-[#f3f4f6]'>
       <Routes>
-        <Route element={<Layout />}>  // Protected Routes
+        <Route element={<Layout />}>  {/*Protected Routes*/}
           <Route index path='/' element={<Navigate to ="/dashboard"/>}/>
           <Route path='/dashboard' element={<Dashboard />}/>
           <Route path='/tasks' element={<Tasks />}/>
@@ -109,14 +108,15 @@ function App() {
           <Route path='/in-progress/:status' element={<Tasks />}/>
           <Route path='/todo/:status' element={<Tasks />}/>
           <Route path='/team' element={<Users/>}/>
-          <Route path='/trashed' element={<Trash/>}/>
+          <Route path='/calendar' element={<Calendar weekData={weekData}/>}/>
+          <Route index path='/globaltasks' element={<Navigate to ="/tasks"/>}/> {/* change this for global tasks */}
           <Route path='/tasks/:id' element={<TaskDetails/>}/>
+          <Route path='/projects' element={<Projects/>}/>
+          <Route path='/kpi' element={<KPI/>}/>
+          <Route path='/trashed' element={<Trash/>}/>
         </Route>
-
         <Route path='/log-in' element={<Login />}/>
-
       </Routes>
-
       <Toaster richColors /> 
     </main>
   )

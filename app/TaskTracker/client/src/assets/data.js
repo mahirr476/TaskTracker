@@ -2,8 +2,14 @@ export const summary = {
   totalTasks: 10,
   last10Task: [
     {
+
       _id: "65c5f12ab5204a81bde866a9",
       title: "Test task",
+      description: "Task Description",
+      startDate: "2024-05-10",
+      endDate: "2024-05-20",
+      // duration: 10, // Duration in days
+      dependencies: ["65c5d547660756f6fd453a7a"], // Array of task IDs that this task depends on
       date: "2024-02-09T00:00:00.000Z",
       priority: "high",
       pid: "p1",

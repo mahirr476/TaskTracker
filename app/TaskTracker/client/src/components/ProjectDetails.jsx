@@ -16,8 +16,8 @@ import Card from './Card';
 import { Typography, Paper } from "@mui/material";
 
 const TABS = [
-  { title: "Board View", icon: <FaList /> },
-  { title: "List View", icon: <MdGridView /> },
+  { title: "List View", icon: <FaList />},
+  { title: "Board View", icon: <MdGridView />  },
 ];
 const ProjectDetails = () => {
   const { pid } = useParams();
@@ -125,7 +125,14 @@ const ProjectDetails = () => {
               Project Tasks
             </Typography>
             <Tabs tabs={TABS} selected={selectedTab} setSelected={setSelectedTab} />
-            {selectedTab === 0 ? (<BoardView tasks={tasks} />) : (<EnhancedTable tasks={tasks} />)}
+            {selectedTab === 0 ? (
+              <EnhancedTable tasks={tasks}  showSearch={true}
+              showStageFilter={true}
+              enablePrioritySort={true}
+              enableCreatedAtSort={true}
+              visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "action"]} />
+            ) : ( <BoardView tasks={tasks} />
+            )}
 
           </Paper>
 

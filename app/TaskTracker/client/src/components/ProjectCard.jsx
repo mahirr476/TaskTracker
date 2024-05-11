@@ -1,12 +1,11 @@
-// ProjectCard.jsx
 import React from 'react';
-import { Button, Card, CardActions, CardContent, Typography } from '@mui/material';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
 const ProjectCard = ({ project, onViewMore }) => {
     return (
-        <Card sx={{ minWidth: 275, margin: 2 }}>
+        <Card className="transition-shadow shadow-md hover:shadow-lg rounded bg-white">
             <CardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant="h5" component="div" className="text-gray-800">
                     {project.projectName}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -18,9 +17,11 @@ const ProjectCard = ({ project, onViewMore }) => {
                     Tasks: {project.numberOfTasks}
                 </Typography>
             </CardContent>
-            <CardActions>
-                <Button size="small" onClick={() => onViewMore(project.pid)}>View More</Button>
-            </CardActions>
+            <div className="p-3">
+                <Button size="small" variant="contained" color="primary" onClick={() => onViewMore(project.pid)}>
+                    View More
+                </Button>
+            </div>
         </Card>
     );
 };

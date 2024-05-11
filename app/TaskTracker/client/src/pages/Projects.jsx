@@ -18,7 +18,7 @@ description
 
 // Projects.jsx
 import React, { useState } from 'react';
-import { Container, Grid, Button } from '@mui/material';
+import { Container, Grid, Button, Typography } from '@mui/material';
 import ProjectCard from '../components/ProjectCard';
 import { projects as mockProjects } from '../assets/data'; // Import projects data
 import { useNavigate } from 'react-router-dom';
@@ -33,17 +33,21 @@ const Projects = () => {
     };
     return (
         <Container>
+                  <div className="mb-3">
+        <Typography variant="h4" component="h1" ><div className='font-bold mb-5'>My Projects</div></Typography>
+      </div>
             <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <Button variant="contained" color="primary">
-                        Add New Project
-                    </Button>
-                </Grid>
+                
                 {projects.map(project => (
                     <Grid item xs={12} sm={6} md={4} key={project.pid}>
                         <ProjectCard project={project} onViewMore={handleViewMore} />
                     </Grid>
                 ))}
+                <Grid item xs={12}>
+                    <Button variant="contained" color="primary">
+                        Add New Project
+                    </Button>
+                </Grid>
             </Grid>
         </Container>
     );

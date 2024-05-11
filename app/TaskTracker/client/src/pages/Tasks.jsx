@@ -10,7 +10,7 @@ import Tabs from "../components/Tabs";
 import TaskTitle from "../components/TaskTitle";
 import BoardView from "../components/BoardView";
 import { tasks } from "../assets/data";
-import Table from "../components/task/Table";
+import EnhancedTable from "../components/task/Table";
 import AddTask from "../components/task/AddTask";
 
 const TABS = [
@@ -69,7 +69,11 @@ const Tasks = () => {
           <BoardView tasks={tasks} />
         ) : (
           <div className='w-full'>
-            <Table tasks={tasks} />
+            <EnhancedTable tasks={tasks}  showSearch={true}
+            showStageFilter={true}
+            enablePrioritySort={true}
+            enableCreatedAtSort={true}
+            visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "action"]} />
           </div>
         )}
       </Tabs>

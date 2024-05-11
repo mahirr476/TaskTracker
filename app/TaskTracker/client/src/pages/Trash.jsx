@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { tasks } from "../assets/data"; // Make sure this import is correctly configured to get deleted tasks
+import { TrashedTasks as tasks, users } from "../assets/data"; // Make sure this import is correctly configured to get deleted tasks
 import Title from "../components/Title";
 import Button from "../components/Button";
-import { IoMdAdd } from "react-icons/io";
 import EnhancedTable from '../components/task/Table'; // Ensure path is correct
 import ConfirmatioDialog from "../components/Dialogs";
 
@@ -43,10 +42,12 @@ const Trash = () => {
         </div>
         <EnhancedTable
           tasks={tasks}
+          users={users}
+
           showSearch={true}
           showStageFilter={true}
           visibleColumns={['progress','title', 'priority', 'team', 'createdAt', 'actions', "admin"]}
-          enableActions={true} // Assuming EnhancedTable supports a prop to enable action buttons
+          enableActions={true}
           onRestore={(task) => handleActionClick('restore', task)}
           onDelete={(task) => handleActionClick('delete', task)} 
         />

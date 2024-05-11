@@ -20,9 +20,6 @@ import Loading from "../components/Loading";
 import Button from "../components/Button";
 import { useNavigate, useParams } from 'react-router-dom';
 
-
-
-
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
@@ -124,7 +121,6 @@ const TaskDetails = () => {
         {selected === 0 ? (
           <>
             <div className='w-full flex flex-col md:flex-row gap-5 2xl:gap-8 bg-white shadow-md p-8 overflow-y-auto'>
-              {/* LEFT */}
               <div className='w-full md:w-1/2 space-y-8'>
                 <div className='flex items-center gap-5'>
                   <div
@@ -243,15 +239,15 @@ const TaskDetails = () => {
             </div>
             <div className='flex my-5 justify-between items-center'>
               <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
-                <FaArrowLeft />
+                HOME
               </button>
               <div>
                 <div className="flex gap-2">
                 <button onClick={goToPrevTask} className={clsx('button text-blue-800 p-2 rounded', prevTaskId ? "bg-blue-200 hover:bg-blue-300 " : "" ) } disabled={!prevTaskId}>
-                  <FaArrowLeft />
+                  PREVIOUS
                 </button>
                 <button onClick={goToNextTask} className={clsx('button text-green-800 p-2 rounded', nextTaskId ? "hover:bg-green-300 bg-green-200 " : "" )} disabled={!nextTaskId}>
-                  <FaArrowRight />
+                  NEXT
                 </button>
                 </div>
               </div>

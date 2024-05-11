@@ -12,7 +12,7 @@ import AddSubTask from "./task/AddSubTask";
 import { useNavigate } from 'react-router-dom';
 
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task, users }) => {
   const navigate = useNavigate();  // Get access to the history instance
   const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
@@ -70,17 +70,14 @@ const TaskCard = ({ task }) => {
           </div>
 
           <div className='flex flex-row-reverse'>
-            {task?.team?.map((m, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  "w-7 h-7 rounded-full text-white flex items-center justify-center text-sm -mr-1",
-                  BGS[index % BGS?.length]
-                )}
-              >
-                <UserInfo user={m} />
-              </div>
-            ))}
+            {task.team.map((userId, index) => {
+              const userDetail = users.find(user => user._id === userId); // Find user detail based on ID
+              return userDetail ? (
+                <div key={userId} className={clsx("w-7 h-7 rounded-full text-white flex items-center justify-center text-sm -mr-1", BGS[index % BGS.length])}>
+                  <UserInfo user={userDetail} />
+                </div>
+              ) : null;
+            })}
           </div>
         </div>
 

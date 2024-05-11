@@ -19,7 +19,7 @@ import {IoClose} from 'react-icons/io5'
 import { setOpenSidebar } from './redux/slices/authSlice'
 import Calendar from './pages/Calendar'
 import { weekData } from './assets/data'
-import ProjectDetails from './components/ProjectDetails'
+import ProjectDetails from './pages/ProjectDetails'
 
 function Layout() { // Main functions
   const user = useSelector((state) => state.auth)

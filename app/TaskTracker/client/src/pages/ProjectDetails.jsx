@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { projects, summary } from '../assets/data';
-import EnhancedTable from './task/Table';
-import BoardView from '../components/BoardView'; // Ensure you have a BoardView component
-import UserTable from './user/UserTable';
-import Tabs from '../components/Tabs'; // Make sure the Tabs component is correctly imported
-import { FaArrowLeft, FaArrowRight, FaList } from 'react-icons/fa';
+import { projects, tasks as globalTasks, users as globalUsers } from '../assets/data';
+import EnhancedTable from '../components/task/Table';
+import BoardView from '../components/BoardView'; 
+import UserTable from '../components/user/UserTable';
+import Tabs from '../components/Tabs';
+import { FaList } from 'react-icons/fa';
 import { MdGridView } from "react-icons/md";
-import clsx from 'clsx';
+import { IoMdAdd } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { LuClipboardEdit } from "react-icons/lu";
 import { FaNewspaper, FaArrowsToDot } from "react-icons/fa6";
-import Chart from '../components/Chart';
-import Card from './Card';
+import Chart from '../components/Charts/Gantt';
+import Card from '../components/Card';
 import { Typography, Paper } from "@mui/material";
+import Button from "../components/Button";
+import AddTask from "../components/task/AddTask";
+import clsx from "clsx";
+
 
 const TABS = [
   { title: "List View", icon: <FaList />},
@@ -23,22 +27,26 @@ const ProjectDetails = () => {
   const { pid } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
+  const [open, setOpen] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-
 
   useEffect(() => {
     const foundProjectIndex = projects.findIndex(p => p.pid === pid);
     if (foundProjectIndex !== -1) {
       setProject(projects[foundProjectIndex]);
-      const filteredTasks = summary.last10Task.filter(t => t.pid === pid);
+      const filteredTasks = globalTasks.filter(t => t.pid === projects[foundProjectIndex].pid);
       setTasks(filteredTasks);
       const teamIds = new Set(projects[foundProjectIndex].teamMembers);
-      const filteredUsers = summary.users.filter(user => teamIds.has(user._id));
+      const filteredUsers = globalUsers.filter(user => teamIds.has(user._id));
       setUsers(filteredUsers);
+    } else {
+      // If no project is found, handle this scenario, maybe set some error state
+      console.log("No project found with pid:", pid);
     }
-  }, [pid]);
+  }, [pid, projects, globalTasks, globalUsers]);
+  
 
   // Calculate task statistics 
   const totalTasks = tasks.length; 
@@ -96,7 +104,9 @@ const ProjectDetails = () => {
           </div>
          <div className="flex flex-wrap justify-between items-start mb-5 ">
           <div className='w-full h-full lg:w-2/3 '>
-            <Chart />
+          <Typography variant="h5" component="div" gutterBottom><div className=''>Dependency Chart</div></Typography>
+
+            <Chart tasks={tasks} users={users}/>
           </div>
            <div className='w-full lg:w-1/3 flex flex-wrap gap-1 pl-5 '>
 
@@ -121,33 +131,40 @@ const ProjectDetails = () => {
           <div className="flex w-full justify-between items-center mb-5">
           <Paper elevation={0} className='w-full p-4 '>
 
+            <div className="flex w-full justify-between">
             <Typography variant="h4" component="div" style={{ width: "100%", marginBottom: "20px" }}>
               Project Tasks
             </Typography>
+            <Button
+            onClick={() => setOpen(true)}
+            icon={<IoMdAdd className='text-lg' />}
+
+            className='flex flex-row-reverse gap-1 items-center bg-blue-300 text-black rounded-md py-2 2xl:py-2.5'
+          />
+            </div>
             <Tabs tabs={TABS} selected={selectedTab} setSelected={setSelectedTab} />
             {selectedTab === 0 ? (
-              <EnhancedTable tasks={tasks}  showSearch={true}
+              <EnhancedTable tasks={tasks}  
+              users={globalUsers}
+              showSearch={true}
               showStageFilter={true}
               enablePrioritySort={true}
               enableCreatedAtSort={true}
               visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "action"]} />
-            ) : ( <BoardView tasks={tasks} />
+            ) : ( <BoardView tasks={tasks} users={globalUsers} />
             )}
-
+            <AddTask open={open} setOpen={setOpen} />
           </Paper>
-
             </div>
-
-
           <div className='flex mt-5 justify-between items-center'>
             <button onClick={goToProjects} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
               HOME
             </button>
-            <div className="flex gap-2">
-              <button onClick={goToPrevProject} className='button text-blue-800 p-2 rounded bg-blue-200 hover:bg-blue-300' disabled={projects.findIndex(project => project.pid === pid) === 0}>
+            <div className="flex gap-2"> 
+              <button onClick={goToPrevProject} className={clsx('button text-blue-800 p-2 rounded', prevPid ? "bg-blue-200 hover:bg-blue-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === 0}>
                 PREVIOUS
               </button>
-              <button onClick={goToNextProject} className='button text-green-800 p-2 rounded bg-green-200 hover:bg-green-300' disabled={projects.findIndex(project => project.pid === pid) === projects.length - 1}>
+              <button onClick={goToNextProject} className={clsx('button text-green-800 p-2 rounded', nextPid ? "bg-green-200 hover:bg-green-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === projects.length - 1}>
                 NEXT
               </button>
             </div>

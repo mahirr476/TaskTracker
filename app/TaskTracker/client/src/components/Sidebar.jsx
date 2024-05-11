@@ -25,11 +25,11 @@ const linkData = [
         link: "tasks",
         icon: <FaTasks />,
     },
-    {
-        label: "Calendar",
-        link: "calendar",
-        icon: <IoCalendarSharp />
-    },
+    // {
+    //     label: "Calendar",
+    //     link: "calendar",
+    //     icon: <IoCalendarSharp />
+    // },
     {
         label: "Projects",
         link: "projects",

@@ -7,9 +7,13 @@ import clsx from 'clsx';
 import UserInfo from '../UserInfo';
 import { TASK_TYPE, formatDate, BGS, prioritize } from '../../utils';
 import { useNavigate } from 'react-router-dom';
+import { Collapse, IconButton, Typography } from '@mui/material';
+import { MdExpandMore } from 'react-icons/md';
+
 
 const EnhancedTable = ({
   tasks,
+  users,
   showSearch = true,
   showStageFilter =true,
   enablePrioritySort = true,
@@ -17,7 +21,7 @@ const EnhancedTable = ({
   enableActions = true,
   onRestoreTask,
   onDeleteTask,
-  visibleColumns = ['progress', 'title', 'priority', 'createdAt', 'team', 'actions', "admin"],
+  visibleColumns = ['progress', 'title', 'priority', 'createdAt', "updatedAt", 'team', 'actions', "admin"],
 
 }) => {
   const [orderDirection, setOrderDirection] = useState('asc');
@@ -25,6 +29,17 @@ const EnhancedTable = ({
   const [filter, setFilter] = useState('');
   const [stageFilter, setStageFilter] = useState('');
   const navigate = useNavigate();
+  const [expandedRow, setExpandedRow] = useState(null);
+  const [expandedIconRotation, setExpandedIconRotation] = useState({});
+  
+  const toggleRow = (id) => {
+    setExpandedRow(expandedRow === id ? null : id);
+    setExpandedIconRotation({
+      ...expandedIconRotation,
+      [id]: expandedRow === id ? 0 : 180,  // Rotate icon 180 degrees when expanded
+    });
+  };
+  
 
   const handleSortRequest = (property) => {
     if (!enablePrioritySort && property === 'priority' || !enableCreatedAtSort && property === 'date') {
@@ -116,14 +131,27 @@ const EnhancedTable = ({
                     </TableSortLabel>
                   </TableCell>
                 )}
+                 {visibleColumns.includes('updatedAt') && (
+                  <TableCell>
+                    <TableSortLabel
+                      active={orderBy === 'date'}
+                      direction={orderBy === 'date' ? orderDirection : 'asc'}
+                      onClick={() => handleSortRequest('date')}
+                    >
+                      Last Updated
+                    </TableSortLabel>
+                  </TableCell>
+                )}
                 {visibleColumns.includes('assets') && <TableCell>Assets</TableCell>}
                 {visibleColumns.includes('team') && <TableCell>Team</TableCell>}
                 {visibleColumns.includes('actions') && <TableCell>Actions</TableCell>}
+                <TableCell>Expand</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filteredItems.map((task, index) => (
-                <TableRow hover role="checkbox" tabIndex={-1} key={index}>
+              <>
+              <TableRow hover role="checkbox" tabIndex={-1} key={task._id}>
                   {visibleColumns.includes('progress') && (
                     <TableCell component="th" scope="row">
                       <div className='flex items-center gap-2'>
@@ -161,17 +189,22 @@ const EnhancedTable = ({
                       </div>
                     </TableCell>
                   )}
-                  {visibleColumns.includes('team') && (
-                    <TableCell>
-                      <div className='flex'>
-                        {task.team.map((m, index) => (
-                          <div key={m._id} className={clsx("w-7 h-7 rounded-full text-white flex items-center justify-center text-sm -mr-1", BGS[index % BGS.length])}>
-                            <UserInfo user={m} />
+                {visibleColumns.includes('updatedAt') && <TableCell>{formatDate(new Date(task.updatedAt))}</TableCell>}
+
+                {visibleColumns.includes('team') && (
+                  <TableCell>
+                    <div className='flex'>
+                      {task.team.map((userId, idx) => {
+                        const userDetail = users && users.find(user => user._id === userId);
+                        return userDetail ? (
+                          <div key={userId} className={clsx("w-7 h-7 rounded-full text-white flex items-center justify-center text-sm -mr-1", BGS[idx % BGS.length])} style={{ backgroundColor: userDetail.isActive ? 'green' : 'gray' }}>
+                            <UserInfo user={userDetail} />
                           </div>
-                        ))}
-                      </div>
-                    </TableCell>
-                  )}
+                        ) : null;
+                      })}
+                    </div>
+                  </TableCell>
+                )}
                   {visibleColumns.includes('actions') && (
                     <TableCell>
                       <Button onClick={() => viewDetails(task._id)} startIcon={<MdOutlineReadMore />} >
@@ -185,11 +218,59 @@ const EnhancedTable = ({
                    <Button onClick={() => onDeleteTask(task._id)} color="error"><MdDelete size={"20"} /></Button>
                  </TableCell>
                   )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                  <TableCell>
+                  <IconButton
+                    onClick={() => toggleRow(task._id)}
+                    aria-expanded={expandedRow === task._id}
+                    aria-label="show more"
+                  >
+                    <MdExpandMore style={{ transform: `rotate(${expandedIconRotation[task._id] || 0}deg)` }} />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={visibleColumns.length + 1}>
+                  <Collapse in={expandedRow === task._id} timeout="auto" unmountOnExit>
+                    <Box sx={{ margin: 2}} className="flex w-full justify-between">
+                      <div className="flex flex-col gap-2 w-1/2">
+                        <Typography variant="h6" gutterBottom component="div">
+                          Task Details
+                        </Typography>
+                        <Typography>{task.description}</Typography>
+                        <Typography><div className='text-blue-500'>Created: {formatDate(new Date(task.startDate))}</div></Typography>
+                        <Typography><div className='text-red-500'>Due: {formatDate(new Date(task.endDate))}</div></Typography>
+                      </div>
+                      <div className="w-1/2">
+                        <Typography>Dependencies:</Typography>
+                        <div className="flex gap-2">
+                        {task.dependencies.map(depId => {
+                            const depTask = tasks.find(t => t._id === depId);
+                            if (!depTask) {
+                              return (
+                                <Typography key={depId} style={{ color: 'red' }}>
+                                  Dependency task not found
+                                </Typography>
+                              );
+                            }
+                            const stageColor = depTask.stage === 'todo' ? 'bg-red-500' : depTask.stage === 'in progress' ? 'bg-amber-300' : 'bg-green-500';
+                            return (
+                              <div key={depId} className={`${stageColor} text-black rounded p-2`}>
+                                {depTask.title}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                    </Box>
+                  </Collapse>
+                </TableCell>
+              </TableRow>
+            </>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
       </Paper>
     </>
   );

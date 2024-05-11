@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Title from "../components/Title";
 import Button from "../components/Button";
 import { IoMdAdd } from "react-icons/io";
-import { summary } from "../assets/data";
+import { tasks, users } from "../assets/data";
 import UserTable from "../components/user/UserTable";
 import AddUser from "../components/user/AddUser";
 import ConfirmatioDialog from "../components/Dialogs";
@@ -38,7 +38,7 @@ const Users = () => {
         </div>
 
         <UserTable
-          users={summary.users}
+          users={users}
           showSearch={true}
           enableActions={true}
           onEditUser={editUserHandler}

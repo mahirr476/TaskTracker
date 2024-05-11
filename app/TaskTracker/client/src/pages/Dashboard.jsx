@@ -2,7 +2,7 @@ import React from 'react';
 import { MdAdminPanelSettings } from "react-icons/md";
 import { LuClipboardEdit } from "react-icons/lu";
 import { FaNewspaper, FaArrowsToDot } from "react-icons/fa6";
-import { summary } from "../assets/data";
+import { tasks, users } from "../assets/data";
 import EnhancedTable from '../components/task/Table'; // Adjust this path to where your EnhancedTable is located
 import UserTable from '../components/user/UserTable'; // Adjust this path to where your UserTable is located
 import Card from '../components/Card';
@@ -10,12 +10,12 @@ import { Typography } from "@mui/material";
 
 
 const Dashboard = () => {
-  const totals = summary.tasks;
+  const totals = tasks;
   const stats = [
     {
       _id: "1",
       label: "TOTAL TASK",
-      total: summary?.totalTasks || 0,
+      total: totals.length || 0,
       icon: <FaNewspaper />,
       bg: "bg-[#1d4ed8]",
     },
@@ -57,18 +57,19 @@ const Dashboard = () => {
         <div className='w-full md:w-2/3'>
         <h2 className='text-2xl my-2 '>Recent Tasks</h2>
           <EnhancedTable
-            tasks={summary.last10Task}
+            tasks={tasks}
+            users={users}
             showSearch={false}
             showStageFilter={false}
             enablePrioritySort={true}
             enableCreatedAtSort={true}
-            visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team']}
+            visibleColumns={['progress', 'title', 'priority', 'updatedAt', 'team']}
           />
         </div>
         <div className='w-full md:w-1/3'>
         <h2 className='text-2xl my-2 '>User Activity</h2>
           <UserTable
-            users={summary.users}
+            users={users}
             showSearch={false}
             visibleColumns={['avatar','isActive', 'role']}
           />

@@ -3,7 +3,7 @@ import TaskCard from "./TaskCard";
 import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
 
-const BoardView = ({ tasks }) => {
+const BoardView = ({ tasks, users }) => {
     const [stageFilter, setStageFilter] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
   
@@ -53,7 +53,7 @@ const BoardView = ({ tasks }) => {
         </Box>
         <div className='w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10'>
           {filteredTasks.map((task, index) => (
-            <TaskCard task={task} key={index} />
+            <TaskCard task={task} users={users} key={index} />
           ))}
         </div>
       </div>

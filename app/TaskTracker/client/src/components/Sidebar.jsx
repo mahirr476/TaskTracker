@@ -26,11 +26,6 @@ const linkData = [
         icon: <FaTasks />,
     },
     {
-        label: "Global Tasks",
-        link: "globaltasks",
-        icon: <CiGlobe />,
-    },
-    {
         label: "Calendar",
         link: "calendar",
         icon: <IoCalendarSharp />
@@ -63,7 +58,6 @@ const Sidebar = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const path = location.pathname.split("/")[1];
-
     const [isTasksOpen, setIsTasksOpen] = useState(false);
 
     const closeSidebar = () => {

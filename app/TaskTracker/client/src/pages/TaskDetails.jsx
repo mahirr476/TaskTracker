@@ -2,7 +2,6 @@ import clsx from "clsx";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
 import { FaBug, FaTasks, FaThumbsUp, FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa"; 
-import { IoIosClose } from "react-icons/io";
 import { GrInProgress } from "react-icons/gr";
 import {
   MdKeyboardArrowDown,
@@ -118,21 +117,7 @@ const TaskDetails = () => {
   // Rest of your component rendering logic using the `task` variable
   return (
     <div className='w-full flex flex-col gap-3 mb-4 overflow-y-hidden'>
-      <div className='flex justify-between items-center'>
-        <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
-          <FaArrowLeft />
-        </button>
-        <div>
-          <div className="flex gap-2">
-          <button onClick={goToPrevTask} className={clsx('button text-blue-800 p-2 rounded', prevTaskId ? "bg-blue-200 hover:bg-blue-300 " : "" ) } disabled={!prevTaskId}>
-            {prevTaskId ? <FaArrowLeft /> : ""}
-          </button>
-          <button onClick={goToNextTask} className={clsx('button text-green-800 p-2 rounded', nextTaskId ? "hover:bg-green-300 bg-green-200 " : "" )} disabled={!nextTaskId}>
-            {nextTaskId ? <FaArrowRight /> : ""}
-          </button>
-          </div>
-        </div>
-      </div>
+     
     <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
 
       <Tabs tabs={TABS} setSelected={setSelected}>
@@ -253,6 +238,21 @@ const TaskDetails = () => {
                       className='w-full rounded h-28 md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50'
                     />
                   ))}
+                </div>
+              </div>
+            </div>
+            <div className='flex my-5 justify-between items-center'>
+              <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
+                <FaArrowLeft />
+              </button>
+              <div>
+                <div className="flex gap-2">
+                <button onClick={goToPrevTask} className={clsx('button text-blue-800 p-2 rounded', prevTaskId ? "bg-blue-200 hover:bg-blue-300 " : "" ) } disabled={!prevTaskId}>
+                  <FaArrowLeft />
+                </button>
+                <button onClick={goToNextTask} className={clsx('button text-green-800 p-2 rounded', nextTaskId ? "hover:bg-green-300 bg-green-200 " : "" )} disabled={!nextTaskId}>
+                  <FaArrowRight />
+                </button>
                 </div>
               </div>
             </div>

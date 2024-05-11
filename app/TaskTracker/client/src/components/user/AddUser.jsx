@@ -1,11 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import ModalWrapper from "./ModalWrapper";
+import ModalWrapper from "../ModalWrapper";
 import { Dialog } from "@headlessui/react";
-import Textbox from "./Textbox";
-import Loading from "./Loading";
-import Button from "./Button";
+import Textbox from "../Textbox";
+import Loading from "../Loading";
+import Button from "../Button";
 
 const AddUser = ({ open, setOpen, userData }) => {
   let defaultValues = userData ?? {};

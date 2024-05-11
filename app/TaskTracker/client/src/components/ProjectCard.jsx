@@ -19,7 +19,7 @@ const ProjectCard = ({ project, onViewMore }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={() => onViewMore(project.id)}>View More</Button>
+                <Button size="small" onClick={() => onViewMore(project.pid)}>View More</Button>
             </CardActions>
         </Card>
     );

@@ -6,6 +6,7 @@ export const summary = {
       title: "Test task",
       date: "2024-02-09T00:00:00.000Z",
       priority: "high",
+      pid: "p1",
       stage: "todo",
       assets: [
         "https://firebasestorage.googleapis.com/v0/b/taskmanager-557d7.appspot.com/o/1707471138863original-a005132062ca5bafc505c4c74f0e1865.jpg?alt=media&token=55f909f2-7f05-42f3-af4f-dc7f87cdea1d",
@@ -18,6 +19,7 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
         },
         {
           _id: "65c30b96e639681a13def0b5",
@@ -25,6 +27,7 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
         },
         {
           _id: "65c317360fd860f958baa08e",
@@ -32,6 +35,8 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
+
         },
       ],
       isTrashed: false,
@@ -53,6 +58,7 @@ export const summary = {
       title: "Duplicate - Duplicate - Review Code Changes",
       date: "2024-02-09T00:00:00.000Z",
       priority: "medium",
+      pid: "p3",
       stage: "in progress",
       assets: [],
       team: [
@@ -62,6 +68,7 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
         },
         {
           _id: "65c3176a0fd860f958baa099",
@@ -69,6 +76,7 @@ export const summary = {
           title: "Data Analyst",
           role: "Analyst",
           email: "emily.wilson@example.com",
+          pcid: 3,
         },
       ],
       isTrashed: false,
@@ -110,6 +118,7 @@ export const summary = {
     {
       _id: "65c46026af6ec0118be9407a",
       title: "Website Project Proposal Review",
+      pid: "p2",
       date: "2024-02-07T00:00:00.000Z",
       priority: "high",
       stage: "todo",
@@ -125,6 +134,7 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
         },
         {
           _id: "65c27a0e18c0a1b750ad5cad",
@@ -132,6 +142,8 @@ export const summary = {
           title: "Software Engineer",
           role: "Developer",
           email: "john.doe@example.com",
+          pcid: 4,
+
         },
         {
           _id: "65c30b96e639681a13def0b5",
@@ -139,6 +151,7 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
         },
       ],
       isTrashed: false,
@@ -193,6 +206,7 @@ export const summary = {
     {
       _id: "65c45fb6af6ec0118be94052",
       title: "Task Manager Youtube Video",
+      pid: "p3",
       date: "2024-02-11T00:00:00.000Z",
       priority: "medium",
       stage: "completed",
@@ -207,6 +221,7 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
         },
         {
           _id: "65c3176a0fd860f958baa099",
@@ -214,6 +229,7 @@ export const summary = {
           title: "Data Analyst",
           role: "Analyst",
           email: "emily.wilson@example.com",
+          pcid: 5,
         },
       ],
       isTrashed: false,
@@ -241,6 +257,7 @@ export const summary = {
     {
       _id: "65c4586f0548279012f8c256",
       title: "Bug Fixing",
+      pid: "p2",
       date: "2024-02-07T00:00:00.000Z",
       priority: "high",
       stage: "todo",
@@ -258,6 +275,7 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
         },
         {
           _id: "65c202d4aa62f32ffd1303cc",
@@ -265,6 +283,7 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
         },
         {
           _id: "65c317360fd860f958baa08e",
@@ -272,6 +291,7 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
         },
       ],
       isTrashed: false,
@@ -301,6 +321,7 @@ export const summary = {
       title: "Duplicate - Website Project Proposal",
       date: "2024-02-07T17:55:13.218Z",
       priority: "high",
+      pid: "p1",
       stage: "todo",
       assets: [],
       team: [
@@ -310,6 +331,8 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
+
         },
         {
           _id: "65c27a0e18c0a1b750ad5cad",
@@ -317,6 +340,8 @@ export const summary = {
           title: "Software Engineer",
           role: "Developer",
           email: "john.doe@example.com",
+          pcid: 4,
+
         },
         {
           _id: "65c30b96e639681a13def0b5",
@@ -324,6 +349,8 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
+
         },
       ],
       isTrashed: false,
@@ -351,6 +378,7 @@ export const summary = {
       title: "Duplicate - Review Code Changes",
       date: "2024-02-07T17:55:13.218Z",
       priority: "medium",
+      pid: "p3",
       stage: "in progress",
       assets: [],
       team: [
@@ -360,6 +388,8 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
+
         },
         {
           _id: "65c3176a0fd860f958baa099",
@@ -367,6 +397,8 @@ export const summary = {
           title: "Data Analyst",
           role: "Analyst",
           email: "emily.wilson@example.com",
+          pcid: 3,
+
         },
       ],
       isTrashed: false,
@@ -388,6 +420,7 @@ export const summary = {
       title: "Duplicate - Website Project Proposal",
       date: "2024-02-07T17:46:56.040Z",
       priority: "normal",
+      pid: "p1",
       stage: "todo",
       assets: [],
       team: [
@@ -397,6 +430,7 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
         },
         {
           _id: "65c27a0e18c0a1b750ad5cad",
@@ -404,6 +438,8 @@ export const summary = {
           title: "Software Engineer",
           role: "Developer",
           email: "john.doe@example.com",
+          pcid: 4,
+
         },
         {
           _id: "65c30b96e639681a13def0b5",
@@ -411,6 +447,8 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
+
         },
       ],
       isTrashed: false,
@@ -438,6 +476,7 @@ export const summary = {
       title: "Review Code Changes",
       date: "2024-02-05T00:00:00.000Z",
       priority: "medium",
+      pid: "p3",
       stage: "in progress",
       assets: [],
       team: [
@@ -447,6 +486,8 @@ export const summary = {
           title: "UX Designer",
           role: "Designer",
           email: "alex.johnson@example.com",
+          pcid: 6,
+
         },
         {
           _id: "65c3176a0fd860f958baa099",
@@ -454,6 +495,8 @@ export const summary = {
           title: "Data Analyst",
           role: "Analyst",
           email: "emily.wilson@example.com",
+          pcid: 1,
+
         },
       ],
       isTrashed: false,
@@ -475,6 +518,7 @@ export const summary = {
       title: "Website Project Proposal",
       date: "2024-02-07T00:00:00.000Z",
       priority: "high",
+      pid: "p1",
       stage: "todo",
       assets: [],
       team: [
@@ -484,6 +528,8 @@ export const summary = {
           title: "Administrator",
           role: "Admin",
           email: "admin@gmail.com",
+          pcid: 6,
+
         },
         {
           _id: "65c27a0e18c0a1b750ad5cad",
@@ -491,6 +537,8 @@ export const summary = {
           title: "Software Engineer",
           role: "Developer",
           email: "john.doe@example.com",
+          pcid: 4,
+
         },
         {
           _id: "65c30b96e639681a13def0b5",
@@ -498,6 +546,8 @@ export const summary = {
           title: "Product Manager",
           role: "Manager",
           email: "jane.smith@example.com",
+          pcid: 6,
+
         },
       ],
       isTrashed: false,
@@ -527,8 +577,9 @@ export const summary = {
       name: "New User",
       title: "Designer",
       role: "Developer",
-      isActive: true,
+      isActive: false,
       createdAt: "2024-02-09T09:38:07.765Z",
+      pcid: 1,
     },
     {
       _id: "65c3176a0fd860f958baa099",
@@ -537,6 +588,8 @@ export const summary = {
       role: "Analyst",
       isActive: true,
       createdAt: "2024-02-07T05:38:50.816Z",
+      pcid: 4,
+
     },
     {
       _id: "65c317360fd860f958baa08e",
@@ -545,14 +598,18 @@ export const summary = {
       role: "Designer",
       isActive: true,
       createdAt: "2024-02-07T05:37:58.862Z",
+      pcid: 6,
+
     },
     {
       _id: "65c30b96e639681a13def0b5",
       name: "Jane Smith",
       title: "Product Manager",
       role: "Manager",
-      isActive: true,
+      isActive: false,
       createdAt: "2024-02-07T04:48:22.519Z",
+      pcid: 6,
+
     },
     {
       _id: "65c202d4aa62f32ffd1303cc",
@@ -561,6 +618,18 @@ export const summary = {
       role: "Admin",
       createdAt: "2024-02-06T09:58:44.794Z",
       isActive: true,
+      pcid: 6,
+
+    },
+    {
+      _id: "65c27a0e18c0a1b750ad5cad",
+      name: "John Doe",
+      title: "Developer",
+      role: "Cyber Security",
+      createdAt: "2024-02-06T09:58:44.794Z",
+      isActive: false,
+      pcid: 4,
+
     },
   ],
   tasks: {
@@ -572,21 +641,21 @@ export const summary = {
 
 export const chartData = [
   {
-    name: "High",
+    name: "high",
     total: 2400,
   },
   {
-    name: "Medium",
+    name: "medium",
     total: 2210,
 
   },
   {
-    name: "Normal",
+    name: "normal",
     total: 3210,
 
   },
   {
-    name: "Low",
+    name: "low",
     total: 2290,
 
   },
@@ -595,8 +664,9 @@ export const chartData = [
 // Projects
 export const projects = [
   {
-      id: "p1",
+      pid: "p1",
       projectName: "Redesign Website",
+      description: "lorem Ipsum Is angry",
       dueDate: "2024-07-20",
       teamMembers: [
           "65c3176a0fd860f958baa099", // Emily Wilson
@@ -606,8 +676,9 @@ export const projects = [
       isActive: true,
   },
   {
-      id: "p2",
+      pid: "p2",
       projectName: "API Development for Mobile",
+      description: "lorem Ipsum Is annoying",
       dueDate: "2024-08-15",
       teamMembers: [
           "65c30b96e639681a13def0b5", // Jane Smith
@@ -617,14 +688,15 @@ export const projects = [
       isActive: true,
   },
   {
-      id: "p3",
+      pid: "p3",
       projectName: "Launch Marketing Campaign",
+      description: "lorem Ipsum Is stupid",
       dueDate: "2024-09-01",
       teamMembers: [
           "65c5f27fb5204a81bde86833", // New User
           "65c202d4aa62f32ffd1303cc", // Codewave Asante
       ],
-      numberOfTasks: 7,
+      numberOfTasks: 1,
       isActive: true,
   }
 ];
@@ -647,18 +719,22 @@ export const tasks = [
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
       },
       {
         _id: "65c30b96e639681a13def0b5",
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c317360fd860f958baa08e",
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
       },
     ],
     isTrashed: false,
@@ -673,11 +749,12 @@ export const tasks = [
     ],
     createdAt: "2024-02-09T09:32:26.574Z",
     updatedAt: "2024-02-09T09:36:53.339Z",
-    __v: 1,
+    __v: 1, // versioning
   },
   {
     _id: "65c5d547660756f6fd453a7a",
     title: "Duplicate - Duplicate - Review Code Changes",
+    pid: "p3",
     date: "2024-02-09T00:00:00.000Z",
     priority: "medium",
     stage: "in progress",
@@ -688,12 +765,16 @@ export const tasks = [
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c3176a0fd860f958baa099",
         name: "Emily Wilson",
         title: "Data Analyst",
         email: "emily.wilson@example.com",
+        pcid: 5,
+
       },
     ],
     isTrashed: false,
@@ -735,6 +816,7 @@ export const tasks = [
   {
     _id: "65c46026af6ec0118be9407a",
     title: "Website Project Proposal Review",
+    pid: "p3",
     date: "2024-02-07T00:00:00.000Z",
     priority: "high",
     stage: "todo",
@@ -749,6 +831,8 @@ export const tasks = [
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
+
       },
       {
         _id: "65c27a0e18c0a1b750ad5cad",
@@ -761,6 +845,8 @@ export const tasks = [
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 4,
+
       },
     ],
     isTrashed: false,
@@ -815,6 +901,7 @@ export const tasks = [
   {
     _id: "65c45fb6af6ec0118be94052",
     title: "Task Manager Youtube Video",
+    pid: "p3",
     date: "2024-02-11T00:00:00.000Z",
     priority: "medium",
     stage: "completed",
@@ -828,12 +915,16 @@ export const tasks = [
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c3176a0fd860f958baa099",
         name: "Emily Wilson",
         title: "Data Analyst",
         email: "emily.wilson@example.com",
+        pcid: 5,
+
       },
     ],
     isTrashed: false,
@@ -875,6 +966,7 @@ export const tasks = [
   {
     _id: "65c4586f0548279012f8c256",
     title: "Bug Fixing",
+    pid: "p2",
     date: "2024-02-07T00:00:00.000Z",
     priority: "high",
     stage: "todo",
@@ -891,18 +983,24 @@ export const tasks = [
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c202d4aa62f32ffd1303cc",
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
+
       },
       {
         _id: "65c317360fd860f958baa08e",
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
+
       },
     ],
     isTrashed: false,
@@ -930,6 +1028,7 @@ export const tasks = [
   {
     _id: "65c3c457fb9c6768ce4bc31a",
     title: "Duplicate - Website Project Proposal",
+    pid: "p1",
     date: "2024-02-07T17:55:13.218Z",
     priority: "high",
     stage: "todo",
@@ -940,18 +1039,24 @@ export const tasks = [
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
+
       },
       {
         _id: "65c27a0e18c0a1b750ad5cad",
         name: "John Doe",
         title: "Software Engineer",
         email: "john.doe@example.com",
+        pcid: 4,
+
       },
       {
         _id: "65c30b96e639681a13def0b5",
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 6,
+
       },
     ],
     isTrashed: false,
@@ -977,6 +1082,7 @@ export const tasks = [
   {
     _id: "65c3c439fb9c6768ce4bc308",
     title: "Duplicate - Review Code Changes",
+    pid: "p3",
     date: "2024-02-07T17:55:13.218Z",
     priority: "medium",
     stage: "in progress",
@@ -987,12 +1093,16 @@ export const tasks = [
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c3176a0fd860f958baa099",
         name: "Emily Wilson",
         title: "Data Analyst",
         email: "emily.wilson@example.com",
+        pcid: 5,
+
       },
     ],
     isTrashed: false,
@@ -1012,6 +1122,7 @@ export const tasks = [
   {
     _id: "65c3c21f55ae9b2f7666e86c",
     title: "Duplicate - Website Project Proposal",
+    pid: "p1",
     date: "2024-02-07T17:46:56.040Z",
     priority: "normal",
     stage: "todo",
@@ -1022,18 +1133,24 @@ export const tasks = [
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
+
       },
       {
         _id: "65c27a0e18c0a1b750ad5cad",
         name: "John Doe",
         title: "Software Engineer",
         email: "john.doe@example.com",
+        pcid: 4,
+
       },
       {
         _id: "65c30b96e639681a13def0b5",
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 6,
+
       },
     ],
     isTrashed: false,
@@ -1059,6 +1176,7 @@ export const tasks = [
   {
     _id: "65c352b376ed5c48f9440955",
     title: "Review Code Changes",
+    pid: "p3",
     date: "2024-02-05T00:00:00.000Z",
     priority: "medium",
     stage: "in progress",
@@ -1069,12 +1187,16 @@ export const tasks = [
         name: "Alex Johnson",
         title: "UX Designer",
         email: "alex.johnson@example.com",
+        pcid: 6,
+
       },
       {
         _id: "65c3176a0fd860f958baa099",
         name: "Emily Wilson",
         title: "Data Analyst",
         email: "emily.wilson@example.com",
+        pcid: 5,
+
       },
     ],
     isTrashed: false,
@@ -1094,6 +1216,7 @@ export const tasks = [
   {
     _id: "65c351b976ed5c48f9440947",
     title: "Website Project Proposal",
+    pid: "p1",
     date: "2024-02-07T00:00:00.000Z",
     priority: "high",
     stage: "todo",
@@ -1104,18 +1227,23 @@ export const tasks = [
         name: "Codewave Asante",
         title: "Administrator",
         email: "admin@gmail.com",
+        pcid: 6,
+
       },
       {
         _id: "65c27a0e18c0a1b750ad5cad",
         name: "John Doe",
         title: "Software Engineer",
         email: "john.doe@example.com",
+        pcid: 4,
+
       },
       {
         _id: "65c30b96e639681a13def0b5",
         name: "Jane Smith",
         title: "Product Manager",
         email: "jane.smith@example.com",
+        pcid: 6
       },
     ],
     isTrashed: false,

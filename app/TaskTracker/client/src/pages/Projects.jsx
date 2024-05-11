@@ -8,6 +8,11 @@ Component details:
 3. Ability to expand project to view project details (opens ProjectDetails.jsx)
 
 
+1. proj numb
+proj name
+value of project (how much money, how much time, some calculation )
+description
+
 
 */}
 
@@ -16,15 +21,16 @@ import React, { useState } from 'react';
 import { Container, Grid, Button } from '@mui/material';
 import ProjectCard from '../components/ProjectCard';
 import { projects as mockProjects } from '../assets/data'; // Import projects data
+import { useNavigate } from 'react-router-dom';
 
 const Projects = () => {
     const [projects, setProjects] = useState(mockProjects);
+    const navigate = useNavigate();
 
     const handleViewMore = (projectId) => {
         // Implementation to view more details
-        console.log("View details for:", projectId);
+        navigate(`/projects/${projectId}`)
     };
-
     return (
         <Container>
             <Grid container spacing={2}>
@@ -34,7 +40,7 @@ const Projects = () => {
                     </Button>
                 </Grid>
                 {projects.map(project => (
-                    <Grid item xs={12} sm={6} md={4} key={project.id}>
+                    <Grid item xs={12} sm={6} md={4} key={project.pid}>
                         <ProjectCard project={project} onViewMore={handleViewMore} />
                     </Grid>
                 ))}

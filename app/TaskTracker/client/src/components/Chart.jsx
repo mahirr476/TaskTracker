@@ -1,35 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
+  Cell,
+  Sector,
 } from "recharts";
+import { Button, Card, CardContent, Typography } from "@mui/material";
 import { chartData } from "../assets/data";
 
 const colorMap = {
-  High: "#FEE2E2",   // Equivalent to Tailwind's bg-red-100
-  Medium: "#FEF9C3", // Equivalent to Tailwind's bg-yellow-100
-  Normal: "#DBEAFE", // Equivalent to Tailwind's bg-blue-100
-  Low: "#DCFCE7"    // Equivalent to Tailwind's bg-green-100
+  high: "#FEE2E2",
+  medium: "#FEF9C3",
+  normal: "#DBEAFE",
+  low: "#DCFCE7",
 };
+
+const COLORS = ['#FF8042', '#0088FE', '#FFBB28', '#00C49F'];
 
 export const Chart = () => {
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={chartData}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <CartesianGrid strokeDasharray="3 3" />
-        <Bar dataKey="total" fill={"#393993"} />
-      </BarChart>
-    </ResponsiveContainer>
+ 
+    <div className="flex flex-col w-full justify-between ">
+
+       <Card className="">
+      <CardContent>
+        <ResponsiveContainer width="100%" height={485}>
+            <BarChart data={chartData}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              
+              <CartesianGrid strokeDasharray="3 3" />
+              <Bar dataKey="total" isAnimationActive={true}>
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colorMap[entry.name.toLowerCase()]} />
+                ))}
+              </Bar>
+            </BarChart>
+        </ResponsiveContainer>
+      </CardContent>
+      </Card>
+    </div>
   );
 };
 

@@ -19,6 +19,7 @@ import {IoClose} from 'react-icons/io5'
 import { setOpenSidebar } from './redux/slices/authSlice'
 import Calendar from './pages/Calendar'
 import { weekData } from './assets/data'
+import ProjectDetails from './components/ProjectDetails'
 
 function Layout() { // Main functions
   const user = useSelector((state) => state.auth)
@@ -109,8 +110,8 @@ function App() {
           <Route path='/todo/:status' element={<Tasks />}/>
           <Route path='/team' element={<Users/>}/>
           <Route path='/calendar' element={<Calendar weekData={weekData}/>}/>
-          <Route index path='/globaltasks' element={<Navigate to ="/tasks"/>}/> {/* change this for global tasks */}
           <Route path='/tasks/:id' element={<TaskDetails/>}/>
+          <Route path='/projects/:pid' element={<ProjectDetails/>}/>
           <Route path='/projects' element={<Projects/>}/>
           <Route path='/kpi' element={<KPI/>}/>
           <Route path='/trashed' element={<Trash/>}/>

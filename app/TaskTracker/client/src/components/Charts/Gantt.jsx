@@ -38,7 +38,6 @@ const Gantt = ({ tasks, users }) => {
           add: false, // Does not allow adding new items
           remove: false // Does not allow deleting items
         },
-        navigationButton: true,
         zoomable: true,
         moveable: true
       };

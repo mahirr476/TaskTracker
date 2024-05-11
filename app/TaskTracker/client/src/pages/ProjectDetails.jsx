@@ -104,7 +104,7 @@ const ProjectDetails = () => {
           </div>
          <div className="flex flex-wrap justify-between items-start mb-5 ">
           <div className='w-full h-full lg:w-2/3 '>
-          <Typography variant="h5" component="div" gutterBottom><div className=''>Dependency Chart</div></Typography>
+          <Typography variant="h5" component="div" gutterBottom><div className=''>Gantt Chart</div></Typography>
 
             <Chart tasks={tasks} users={users}/>
           </div>
@@ -150,7 +150,7 @@ const ProjectDetails = () => {
               showStageFilter={true}
               enablePrioritySort={true}
               enableCreatedAtSort={true}
-              visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "action"]} />
+              visibleColumns={['progress', 'title', 'priority',"actions", 'createdAt', 'team', "action"]} />
             ) : ( <BoardView tasks={tasks} users={globalUsers} />
             )}
             <AddTask open={open} setOpen={setOpen} />

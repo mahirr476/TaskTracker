@@ -8,7 +8,7 @@ import UserTable from '../components/user/UserTable'; // Adjust this path to whe
 import Card from '../components/Card';
 import { Typography } from "@mui/material";
 
-
+//need to connect logged in user and then update total info of specific user
 const Dashboard = () => {
   const totals = tasks;
   const stats = [
@@ -36,7 +36,7 @@ const Dashboard = () => {
     {
       _id: "4",
       label: "TODOS",
-      total: totals["todo"],
+      total: totals["todo"] || 0,
       icon: <FaArrowsToDot />,
       bg: "bg-[#be185d]" || 0,
     },

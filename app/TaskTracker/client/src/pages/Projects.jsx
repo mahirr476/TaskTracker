@@ -33,9 +33,12 @@ const Projects = () => {
     };
     return (
         <Container>
-                  <div className="mb-3">
-        <Typography variant="h4" component="h1" ><div className='font-bold mb-5'>My Projects</div></Typography>
-      </div>
+            <div className="mb-3 flex w-full justify-between mb-5">
+                <Typography variant="h4" component="h1" ><div className='font-bold mb-5'>My Projects</div></Typography>
+                <Button variant="contained" color="warning">
+                    Add New Project
+                </Button>
+            </div>
             <Grid container spacing={2}>
                 
                 {projects.map(project => (
@@ -43,11 +46,7 @@ const Projects = () => {
                         <ProjectCard project={project} onViewMore={handleViewMore} />
                     </Grid>
                 ))}
-                <Grid item xs={12}>
-                    <Button variant="contained" color="primary">
-                        Add New Project
-                    </Button>
-                </Grid>
+               
             </Grid>
         </Container>
     );

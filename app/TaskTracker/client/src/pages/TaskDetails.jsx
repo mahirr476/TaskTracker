@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { FaBug, FaTasks, FaThumbsUp, FaUser, FaArrowLeft, FaArrowRight } from "react-icons/fa"; 
+import { FaBug, FaTasks, FaThumbsUp, FaUser, FaPencilAlt  } from "react-icons/fa"; 
 import { GrInProgress } from "react-icons/gr";
 import {
   MdKeyboardArrowDown,
@@ -9,11 +9,12 @@ import {
   MdKeyboardDoubleArrowUp,
   MdOutlineDoneAll,
   MdOutlineMessage,
-  MdTaskAlt,
+  MdTaskAlt, MdImage, MdInsertDriveFile
 } from "react-icons/md";
+
 import { RxActivityLog } from "react-icons/rx";
 import { toast } from "sonner";
-import { tasks } from "../assets/data";
+import { tasks, users } from "../assets/data";  // Ensure users data is available
 import Tabs from "../components/Tabs";
 import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import Loading from "../components/Loading";
@@ -92,13 +93,18 @@ const TaskDetails = () => {
 
 
   const [task, setTask] = useState(null);  // State to hold the current task
+  const [taskUsers, setTaskUsers] = useState([]);
+
 
   useEffect(() => {
     // Find the task that matches the ID from the URL
     const currentTask = tasks.find((task) => task._id.toString() === id);
     console.log(currentTask)
     if (currentTask) {
+      console.log(currentTask)
       setTask(currentTask);
+      const relatedUsers = users.filter(user => currentTask.team.includes(user._id));
+      setTaskUsers(relatedUsers);
     } else {
       // Handle the case where no task is found
       console.log("No task found with ID:", id);
@@ -111,12 +117,38 @@ const TaskDetails = () => {
     return <p>Loading task details or task not found...</p>;
   }
 
+  const handleEditTask = () => {
+    // Function to navigate to the task edit page or open a modal
+    console.log("Edit task:", id);
+    navigate(`/edit-task/${id}`);
+  };
+
+  
+  const downloadFile = (url) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = url.split('/').pop();
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const renderAssetIcon = (url) => {
+    const isImage = /\.(jpeg|jpg|gif|png|svg)$/i.test(url);
+    return isImage ? <MdImage size={24} /> : <MdInsertDriveFile size={24} />;
+  };
+
   // Rest of your component rendering logic using the `task` variable
   return (
     <div className='w-full flex flex-col gap-3 mb-4 overflow-y-hidden'>
      
-    <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
-
+     <div className="flex justify-between items-center">
+        <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
+        <button onClick={handleEditTask} className="text-blue-600 hover:text-blue-800">
+          <FaPencilAlt size={20} />
+        </button>
+      </div>
+      
       <Tabs tabs={TABS} setSelected={setSelected}>
         {selected === 0 ? (
           <>
@@ -165,30 +197,18 @@ const TaskDetails = () => {
 
                 <div className='space-y-4 py-6'>
                   <p className='text-gray-600 font-semibold test-sm'>
-                    TASK TEAM
+                    Task Members
                   </p>
                   <div className='space-y-3'>
-                    {task?.team?.map((m, index) => (
-                      <div
-                        key={index}
-                        className='flex gap-4 py-2 items-center border-t border-gray-200'
-                      >
-                        <div
-                          className={
-                            "w-10 h-10 rounded-full text-white flex items-center justify-center text-sm -mr-1 bg-blue-600"
-                          }
-                        >
-                          <span className='text-center'>
-                            {getInitials(m?.name)}
-                          </span>
-                        </div>
-
-                        <div>
-                          <p className='text-lg font-semibold'>{m?.name}</p>
-                          <span className='text-gray-500'>{m?.title}</span>
-                        </div>
+                  <h2 className="text-xl font-semibold"></h2>
+                  {taskUsers.map(user => (
+                    <div key={user._id} className="flex items-center space-x-2 my-1">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full text-white flex items-center justify-center">
+                        {user.name.charAt(0)}
                       </div>
-                    ))}
+                      <span>{user.name}</span>
+                    </div>
+                  ))}
                   </div>
                 </div>
 
@@ -223,17 +243,38 @@ const TaskDetails = () => {
               </div>
               {/* RIGHT */}
               <div className='w-full md:w-1/2 space-y-8'>
-                <p className='text-lg font-semibold'>ASSETS</p>
-
-                <div className='w-full grid grid-cols-2 gap-4'>
-                  {task?.assets?.map((el, index) => (
-                    <img
-                      key={index}
-                      src={el}
-                      alt={task?.title}
-                      className='w-full rounded h-28 md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50'
-                    />
-                  ))}
+              <div className="mt-4">
+                <h2 className="text-xl font-semibold">Dependencies</h2>
+                <ul>
+                {task.dependencies.map(depId => {
+                            const depTask = tasks.find(t => t._id === depId);
+                            if (!depTask) {
+                              return (
+                                <Typography key={depId} style={{ color: 'red' }}>
+                                  Dependency task not found
+                                </Typography>
+                              );
+                            }
+                            const stageColor = depTask.stage === 'todo' ? 'bg-red-500' : depTask.stage === 'in progress' ? 'bg-amber-300' : 'bg-green-500';
+                            return (
+                              <div key={depId} className={`${stageColor} text-black rounded p-2`}>
+                                {depTask.title}
+                              </div>
+                            );
+                          })}
+                </ul>
+              </div>
+                {/* Assets Section */}
+                <div className="mt-4">
+                  <h2 className="text-xl font-semibold">Assets</h2>
+                  <div className="flex flex-wrap">
+                    {task.assets.map((asset, index) => (
+                      <div key={index} className="p-2 m-1 bg-gray-100 rounded cursor-pointer flex items-center space-x-2" onClick={() => downloadFile(asset)}>
+                        {renderAssetIcon(asset)}
+                        <span className="text-sm">{asset.split('/').pop()}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

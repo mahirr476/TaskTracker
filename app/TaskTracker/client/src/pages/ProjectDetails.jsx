@@ -16,7 +16,10 @@ import Card from '../components/Card';
 import { Typography, Paper } from "@mui/material";
 import Button from "../components/Button";
 import AddTask from "../components/task/AddTask";
+import Loading from '../components/Loading'; 
 import clsx from "clsx";
+import { TbArrowBackUp } from "react-icons/tb";
+import Title from '../components/Title';
 
 
 const TABS = [
@@ -31,8 +34,11 @@ const ProjectDetails = () => {
   const [tasks, setTasks] = useState([]);
   const [users, setUsers] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [loading, setLoading] = useState(true); // State to manage loading
+
 
   useEffect(() => {
+    setLoading(true); // Start loading
     const foundProjectIndex = projects.findIndex(p => p.pid === pid);
     if (foundProjectIndex !== -1) {
       setProject(projects[foundProjectIndex]);
@@ -42,11 +48,14 @@ const ProjectDetails = () => {
       const filteredUsers = globalUsers.filter(user => teamIds.has(user._id));
       setUsers(filteredUsers);
     } else {
-      // If no project is found, handle this scenario, maybe set some error state
       console.log("No project found with pid:", pid);
     }
-  }, [pid, projects, globalTasks, globalUsers]);
-  
+    setLoading(false); // Stop loading
+  }, [pid]);
+
+  if (loading) {
+    return <Loading />; // Render loading component if loading is true
+  }
 
   // Calculate task statistics 
   const totalTasks = tasks.length; 
@@ -97,18 +106,32 @@ const ProjectDetails = () => {
       {project ? (
          <div className='w-full flex flex-col mb-4 overflow-y-hidden'>
           <div className="mb-3">
-          <Paper elevation={0} className='p-4 mb-3'>
-            <Typography variant="h5" gutterBottom><div className='font-bold'>{project.projectName} Project</div></Typography>
-            <Typography variant="body1"><div >{project.description}</div></Typography>
+          <Paper elevation={0} className='p-4 mb-3 flex w-full  lg:flex-row lg:justify-between flex-col justify-start  gap-3'>
+          <div className="flex flex-col">
+              <Typography variant="h5" gutterBottom><div className='font-bold'>{project.projectName} Project</div></Typography>
+              <Typography variant="body1"><div >{project.description}</div></Typography>
+            </div>
+              <div className='flex gap-2 justify-end items-center'>
+                <button onClick={goToProjects} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
+                  <TbArrowBackUp size={20}/>
+                </button>
+                  <button onClick={goToPrevProject} className={clsx('button text-blue-800 p-2 rounded', prevPid ? "bg-blue-200 hover:bg-blue-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === 0}>
+                    PREVIOUS
+                  </button>
+                  <button onClick={goToNextProject} className={clsx('button text-green-800 p-2 rounded', nextPid ? "bg-green-200 hover:bg-green-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === projects.length - 1}>
+                    NEXT
+                  </button>
+              </div>
+           
           </Paper>          
           </div>
-         <div className="flex flex-wrap justify-between items-start mb-5 ">
+         <div className="flex flex-wrap justify-between items-center mb-5 ">
           <div className='w-full h-full lg:w-2/3 '>
-          <Typography variant="h5" component="div" gutterBottom><div className=''>Gantt Chart</div></Typography>
+          <Title title="Gantt Chart" className={"text-4xl font-light mb-5"} />
 
             <Chart tasks={tasks} users={users}/>
           </div>
-           <div className='w-full lg:w-1/3 flex flex-wrap gap-1 pl-5 '>
+           <div className='w-full lg:w-1/3 flex flex-wrap  pl-5 sm:p-1 mt-5 lg:mt-0 gap-4'>
 
              {stats.map(({ icon, bg, label, total }, index) => (
                <Card key={index} icon={icon} bg={bg} label={label} count={total} />
@@ -156,19 +179,7 @@ const ProjectDetails = () => {
             <AddTask open={open} setOpen={setOpen} />
           </Paper>
             </div>
-          <div className='flex mt-5 justify-between items-center'>
-            <button onClick={goToProjects} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
-              HOME
-            </button>
-            <div className="flex gap-2"> 
-              <button onClick={goToPrevProject} className={clsx('button text-blue-800 p-2 rounded', prevPid ? "bg-blue-200 hover:bg-blue-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === 0}>
-                PREVIOUS
-              </button>
-              <button onClick={goToNextProject} className={clsx('button text-green-800 p-2 rounded', nextPid ? "bg-green-200 hover:bg-green-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === projects.length - 1}>
-                NEXT
-              </button>
-            </div>
-          </div>
+          
         </div>
       ) : (
         <Typography variant="h6" color="error">Project not found.</Typography>

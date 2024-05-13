@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, CardActionArea, CardActions, CardContent, Typography, Button } from '@mui/material';
+import { Card, CardActionArea, CardContent, Typography, Box } from '@mui/material';
+import PeopleIcon from '@mui/icons-material/People';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const colors = ['#f44336', '#2196f3', '#4caf50', '#ffeb3b', '#ff9800', '#9c27b0']; // Color options
 
@@ -8,7 +10,7 @@ const ProjectCard = ({ project, onViewMore }) => {
 
     return (
         <Card sx={{ maxWidth: 345, m: 2 }} className="transition-shadow shadow-md hover:shadow-lg">
-            <CardActionArea>
+            <CardActionArea onClick={() => onViewMore(project.pid)}>
                 <div style={{ backgroundColor: color, height: '25px' }} />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
@@ -20,13 +22,21 @@ const ProjectCard = ({ project, onViewMore }) => {
                     <Typography sx={{ mt: 1.5 }} color="text.secondary">
                         Due: {project.dueDate}
                     </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mt: 2 }}>
+                        <PeopleIcon color="action" />
+                        <Typography variant="body2" sx={{ ml: 0.5 }}>
+                            {project.teamMembers.length} Team Members
+                        </Typography>
+                        <FiberManualRecordIcon 
+                            sx={{ ml: 2, fontSize: 14 }} 
+                            color={project.isActive ? 'success' : 'error'}
+                        />
+                        <Typography variant="body2" sx={{ ml: 0.5 }}>
+                            {project.isActive ? 'Active' : 'Inactive'}
+                        </Typography>
+                    </Box>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="primary" onClick={() => onViewMore(project.pid)}>
-                    View More
-                </Button>
-            </CardActions>
         </Card>
     );
 };

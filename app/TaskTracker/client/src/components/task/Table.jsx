@@ -92,13 +92,12 @@ const EnhancedTable = ({
 
 
   return (
-    <>
-      <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <Paper sx={{ width: '100%', overflow: 'hidden' ,gap: "2"}}>
         {showSearch && (
-        <Paper sx={{ padding: 2, display: 'flex', flexDirection:"column", alignItems: 'center', justifyContent:'end', width:"100%"}}>
+        <Box sx={{ padding: 2, display: 'flex', flexDirection:"column", alignItems: 'center', justifyContent:'end', width:"100%"}}>
         <div className="flex w-full gap-2 justify-center items-center">
               <TextField
-                  label="Search For Task"
+                  label="Search For Tasks"
                   variant="outlined"
                   fullWidth
                   sx={{ flexGrow: 1 }}
@@ -133,11 +132,7 @@ const EnhancedTable = ({
                   />
                   <TaskTitle label='Completed' className={TASK_TYPE.completed} />
                 </div>
-
-
-
-
-            </Paper>
+            </Box>
         )}
         
         <TableContainer sx={{ maxHeight: 450 }}>
@@ -316,7 +311,7 @@ const EnhancedTable = ({
       </Table>
     </TableContainer>
       </Paper>
-    </>
+  
   );
 };
 

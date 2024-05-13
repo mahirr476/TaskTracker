@@ -1,13 +1,13 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { BsChevronExpand } from "react-icons/bs";
-import { summary } from "../../assets/data";
+import { tasks, users } from "../../assets/data";
 import clsx from "clsx";
 import { getInitials } from "../../utils";
 import { MdCheck } from "react-icons/md";
 
 const UserList = ({ setTeam, team }) => {
-  const data = summary.users;
+  const data = users;
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleChange = (el) => {

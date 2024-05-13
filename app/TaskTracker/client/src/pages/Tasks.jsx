@@ -66,7 +66,7 @@ const Tasks = () => {
         )}
       </Tabs>
 
-      <AddTask open={open} setOpen={setOpen} />
+      <AddTask open={open} setOpen={true} /> {/* /bugged/ */}
     </div>
   );
 };

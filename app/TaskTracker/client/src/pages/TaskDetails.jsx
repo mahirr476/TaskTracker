@@ -9,7 +9,9 @@ import {
   MdKeyboardDoubleArrowUp,
   MdOutlineDoneAll,
   MdOutlineMessage,
-  MdTaskAlt, MdImage, MdInsertDriveFile
+  MdTaskAlt, MdImage, 
+  MdInsertDriveFile, 
+  MdOutlineQueuePlayNext
 } from "react-icons/md";
 
 import { RxActivityLog } from "react-icons/rx";
@@ -129,6 +131,14 @@ const TaskDetails = () => {
     navigate(`/edit-task/${id}`);
   };
 
+  const goToProject = () => {
+    if (task && task.pid) {
+      navigate(`/projects/${task.pid}`);
+    } else {
+      toast.error("No associated project found!");
+    }
+  };
+
   
   const downloadFile = (url) => {
     const link = document.createElement('a');
@@ -153,9 +163,12 @@ const TaskDetails = () => {
     
         <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
         <div className="flex gap-2">
-        <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
-               < TbArrowBackUp size={20}/>
-                </button>
+          <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
+            <TbArrowBackUp size={20}/>
+          </button>
+          <button onClick={goToProject} className='button flex justify-center items-center gap-2 bg-red-200 hover:bg-red-300 text-red-800 p-2 rounded'>
+          <MdOutlineQueuePlayNext /> PROJECT
+          </button>
           <button onClick={goToPrevTask} className={clsx('button p-2 rounded', prevTaskId ? " text-blue-700 bg-blue-200 hover:bg-blue-300 " : "text-gray-400" ) } disabled={!prevTaskId}>
             PREVIOUS
           </button>

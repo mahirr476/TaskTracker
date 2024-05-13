@@ -22,7 +22,7 @@ const Gantt = ({ tasks, users }) => {
       );
 
       const options = {
-        height: '480px',
+        height: '500px',
         stack: true,
         horizontalScroll: true,
         verticalScroll: true,

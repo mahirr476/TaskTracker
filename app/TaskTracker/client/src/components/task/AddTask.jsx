@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ModalWrapper from "../ModalWrapper";
 import { Dialog } from "@headlessui/react";
 import Textbox from "../Textbox";
@@ -9,27 +9,44 @@ import { BiImages } from "react-icons/bi";
 import Button from "../Button";
 
 const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
-const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
+const PRIORITY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
 
-const uploadedFileURLs = [];
-
-const AddTask = ({ open, setOpen }) => {
-  const task = "";
-
+const AddTask = ({ open, setOpen, task, users }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
-  const [team, setTeam] = useState(task?.team || []);
+
+  const [team, setTeam] = useState([]);
   const [stage, setStage] = useState(task?.stage?.toUpperCase() || LISTS[0]);
-  const [priority, setPriority] = useState(
-    task?.priority?.toUpperCase() || PRIORIRY[2]
-  );
+  const [priority, setPriority] = useState(task?.priority?.toUpperCase() || PRIORITY[2]);
   const [assets, setAssets] = useState([]);
   const [uploading, setUploading] = useState(false);
 
-  const submitHandler = () => {};
+  // Set form defaults when task is provided
+  useEffect(() => {
+    if (task) {
+      reset({
+        title: task.title,
+        date: task.date?.slice(0, 10) // Assuming task.date is in ISO format
+      });
+      setTeam(users.filter(user => task.team.includes(user.id))); // Map user IDs to user objects
+      setStage(task.stage?.toUpperCase() || LISTS[0]);
+      setPriority(task.priority?.toUpperCase() || PRIORITY[2]);
+      // setAssets based on task.assets if needed
+    }
+  }, [task, reset, users]);
+
+  const submitHandler = (data) => {
+    const teamIds = team.map(user => user.id); // Map user objects back to their IDs
+    if (task) {
+      // Update task logic including teamIds
+    } else {
+      // Add task logic including teamIds
+    }
+  };
 
   const handleSelect = (e) => {
     setAssets(e.target.files);
@@ -39,13 +56,10 @@ const AddTask = ({ open, setOpen }) => {
     <>
       <ModalWrapper open={open} setOpen={setOpen}>
         <form onSubmit={handleSubmit(submitHandler)}>
-          <Dialog.Title
-            as='h2'
-            className='text-base font-bold leading-6 text-gray-900 mb-4'
-          >
-            {task ? "UPDATE TASK" : "ADD TASK"}
+          <Dialog.Title as='h2' className='text-base font-bold leading-6 text-gray-900 mb-4'>
+            {task ? "Update Task" : "Add Task"}
           </Dialog.Title>
-
+          
           <div className='mt-2 flex flex-col gap-6'>
             <Textbox
               placeholder='Task Title'
@@ -57,7 +71,7 @@ const AddTask = ({ open, setOpen }) => {
               error={errors.title ? errors.title.message : ""}
             />
 
-            <UserList setTeam={setTeam} team={team} />
+            <UserList setTeam={setTeam} team={team}  />
 
             <div className='flex gap-4'>
               <SelectList
@@ -85,7 +99,7 @@ const AddTask = ({ open, setOpen }) => {
             <div className='flex gap-4'>
               <SelectList
                 label='Priority Level'
-                lists={PRIORIRY}
+                lists={PRIORITY}
                 selected={priority}
                 setSelected={setPriority}
               />

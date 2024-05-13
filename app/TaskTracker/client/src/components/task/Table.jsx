@@ -1,5 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, TableSortLabel, Select, MenuItem, FormControl, InputLabel, Box } from '@mui/material';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, TextField, TableSortLabel, Select, MenuItem, FormControl, InputLabel, Box,
+  Collapse, IconButton, Typography
+} from '@mui/material';
 import { MdAttachFile, MdOutlineReadMore, MdRestore, MdDelete } from 'react-icons/md';
 import { BiMessageAltDetail } from 'react-icons/bi';
 import { FaList } from 'react-icons/fa';
@@ -7,11 +11,10 @@ import clsx from 'clsx';
 import UserInfo from '../UserInfo';
 import { TASK_TYPE, formatDate, BGS, prioritize } from '../../utils';
 import { useNavigate } from 'react-router-dom';
-import { Collapse, IconButton, Typography } from '@mui/material';
 import { MdExpandMore } from 'react-icons/md';
 import { FaPencilAlt  } from "react-icons/fa"; 
 import TaskTitle from '../TaskTitle';
-
+import AddTask from './AddTask'; 
 
 const EnhancedTable = ({
   tasks,
@@ -33,6 +36,17 @@ const EnhancedTable = ({
   const navigate = useNavigate();
   const [expandedRow, setExpandedRow] = useState(null);
   const [expandedIconRotation, setExpandedIconRotation] = useState({});
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+
+
+// Toggle modal function in parent component
+const toggleEditTaskModal = (task) => {
+  setSelectedTask(task); // Set the task to edit
+  setIsEditModalOpen(true); // Open the modal
+};
+
   
   const toggleRow = (id) => {
     setExpandedRow(expandedRow === id ? null : id);
@@ -47,11 +61,10 @@ const EnhancedTable = ({
     "in progress": "bg-yellow-600 ",
     completed: "bg-green-600 ",
   };
-
   const handleSortRequest = (property) => {
-    if (!enablePrioritySort && property === 'priority' || !enableCreatedAtSort && property === 'date') {
-      return;
-    }
+    if (property === 'priority' && !enablePrioritySort) return;
+    if ((property === 'createdAt' || property === 'updatedAt') && !enableCreatedAtSort) return;
+  
     const isAsc = orderBy === property && orderDirection === 'asc';
     setOrderDirection(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -86,12 +99,12 @@ const EnhancedTable = ({
   //   navigate(`/tasks/${id}`);  // Navigate to task details page
   // };
 
-  const onEditTask = (id) => {
-    navigate(`/tasks/${id}`);  // Navigate to task details page
+  const handleModalContentClick = (e) => {
+    e.stopPropagation(); // Stop click events from closing the modal
   };
 
-
   return (
+
       <Paper sx={{ width: '100%', overflow: 'hidden' ,gap: "2"}}>
         {showSearch && (
         <Box sx={{ padding: 2, display: 'flex', flexDirection:"column", alignItems: 'center', justifyContent:'end', width:"100%"}}>
@@ -240,13 +253,16 @@ const EnhancedTable = ({
                   {visibleColumns.includes('actions') && (
                     <TableCell >
                       <div className="flex gap-2">
-                      <Button onClick={() => viewDetails(task._id)} startIcon={<MdOutlineReadMore />} >
-                        View
-                      </Button>
-                      <Button  onClick={() => onEditTask(task._id)}><FaPencilAlt size={"15"}/></Button>
-                      </div>
+                          <Button onClick={() => viewDetails(task._id)} startIcon={<MdOutlineReadMore />} >
+                            View
+                          </Button>
+                          <Button className='flex gap-2' onClick={() => toggleEditTaskModal(task)}><FaPencilAlt size={"15"}/>Edit</Button>
+                         
+                        </div>
                     </TableCell>
+                  
                   )}
+                            
                    {visibleColumns.includes('admin') && (
                    <TableCell>
                     
@@ -310,7 +326,17 @@ const EnhancedTable = ({
         </TableBody>
       </Table>
     </TableContainer>
-      </Paper>
+    <AddTask
+      task={selectedTask}
+      open={isEditModalOpen}
+      setOpen={setIsEditModalOpen}
+      users={users}  // 
+    />
+
+    </Paper>
+
+ 
+
   
   );
 };

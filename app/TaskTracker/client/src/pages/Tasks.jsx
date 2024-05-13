@@ -36,13 +36,14 @@ const Tasks = () => {
         <Title title={ "My Tasks"} />
 
        
-          <Button
+          <button
             onClick={() => setOpen(true)}
-            label='Create Task'
-            icon={<IoMdAdd className='text-lg' />}
-            className='flex flex-row-reverse gap-1 items-center bg-blue-600 text-white rounded-md py-2 2xl:py-2.5'
-          />
-      
+            className='flex gap-1 items-center bg-blue-600 text-white rounded-full p-5 py-2 2xl:py-2.5'
+          >
+           <IoMdAdd className='text-lg' />Create Task
+        </button>
+          <AddTask open={open} setOpen={setOpen}  />
+
       </div>
 
       <Tabs tabs={TABS} setSelected={setSelected}>
@@ -66,7 +67,6 @@ const Tasks = () => {
         )}
       </Tabs>
 
-      <AddTask open={open} setOpen={true} /> {/* /bugged/ */}
     </div>
   );
 };

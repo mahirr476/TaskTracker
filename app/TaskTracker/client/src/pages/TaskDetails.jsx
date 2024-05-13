@@ -24,7 +24,7 @@ import Loading from "../components/Loading";
 import Button from "../components/Button";
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoMdAdd } from "react-icons/io";
-import AddSubTask from "../components/task/AddTask";
+import AddSubTask from "../components/task/AddSubTask";
 import { TbArrowBackUp } from "react-icons/tb";
 
 

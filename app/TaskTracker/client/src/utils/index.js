@@ -78,9 +78,10 @@ export const formatDate = (date) => {
   }
   
   export const PRIOTITYSTYELS = {
-    high: "text-black bg-red-100 ",
-    medium: "text-yellow-600",
-    low: "text-blue-600",
+    high: "text-red-900 ",
+    medium: "text-yellow-700",
+    normal: "text-blue-900",
+    low: "text-green-900",
   };
   
   export const TASK_TYPE = {

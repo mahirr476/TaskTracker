@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import TaskCard from "./TaskCard";
-import { Box, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import { Paper, TextField, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import TaskTitle from "../components/TaskTitle";
 
 
 const BoardView = ({ tasks, users }) => {
@@ -23,10 +24,18 @@ const BoardView = ({ tasks, users }) => {
       );
     }, [tasks, stageFilter, searchQuery]);
     
+
+const TASK_TYPE = {
+  todo: "bg-blue-600 ",
+  "in progress": "bg-yellow-600 ",
+  completed: "bg-green-600 ",
+};
   
     return (
       <div>
-        <Box sx={{ padding: 2, display: 'flex', gap: 2, alignItems: 'center' }}>
+        <Paper sx={{ padding: 2, display: 'flex', flexDirection:"column", alignItems: 'center', justifyContent:'end', width:"100%"}}>
+
+        <div className="flex w-full gap-2 justify-center items-center">
           <TextField
             label="Search For Tasks"
             variant="outlined"
@@ -50,7 +59,22 @@ const BoardView = ({ tasks, users }) => {
               <MenuItem value="todo">Todo</MenuItem>
             </Select>
           </FormControl>
-        </Box>
+          </div>
+
+
+
+
+          <div className='flex px-2 gap-5 w-full mt-2'>
+            <TaskTitle label='To Do' className={TASK_TYPE.todo} />
+            <TaskTitle
+              label='In Progress'
+              className={TASK_TYPE["in progress"]}
+            />
+            <TaskTitle label='Completed' className={TASK_TYPE.completed} />
+          </div>
+       
+
+        </Paper>
         <div className='w-full py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 2xl:gap-10'>
           {filteredTasks.map((task, index) => (
             <TaskCard task={task} users={users} key={index} />

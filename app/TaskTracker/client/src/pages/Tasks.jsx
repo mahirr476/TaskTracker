@@ -7,7 +7,6 @@ import Title from "../components/Title";
 import Button from "../components/Button";
 import { IoMdAdd } from "react-icons/io";
 import Tabs from "../components/Tabs";
-import TaskTitle from "../components/TaskTitle";
 import BoardView from "../components/BoardView";
 import { tasks, users } from "../assets/data";
 import EnhancedTable from "../components/task/Table";
@@ -19,11 +18,6 @@ const TABS = [
 ];
 
 
-const TASK_TYPE = {
-  todo: "bg-blue-600",
-  "in progress": "bg-yellow-600",
-  completed: "bg-green-600",
-};
 
 const Tasks = () => {
 
@@ -53,14 +47,7 @@ const Tasks = () => {
 
       <Tabs tabs={TABS} setSelected={setSelected}>
         
-          <div className='w-full flex justify-between gap-4 md:gap-x-12 py-4'>
-            <TaskTitle label='To Do' className={TASK_TYPE.todo} />
-            <TaskTitle
-              label='In Progress'
-              className={TASK_TYPE["in progress"]}
-            />
-            <TaskTitle label='completed' className={TASK_TYPE.completed} />
-          </div>
+          
       
 
         {selected !== 1 ? (
@@ -74,7 +61,7 @@ const Tasks = () => {
             showStageFilter={true}
             enablePrioritySort={true}
             enableCreatedAtSort={true}
-            visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "action"]} />
+            visibleColumns={['progress', 'title', 'priority', 'createdAt', 'team', "actions"]} />
           </div>
         )}
       </Tabs>

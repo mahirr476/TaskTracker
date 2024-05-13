@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { FaBug, FaTasks, FaThumbsUp, FaUser, FaPencilAlt  } from "react-icons/fa"; 
+import { FaBug, FaTasks, FaThumbsUp, FaUser  } from "react-icons/fa"; 
 import { GrInProgress } from "react-icons/gr";
 import {
   MdKeyboardArrowDown,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/md";
 
 import { RxActivityLog } from "react-icons/rx";
+import { BsDash } from "react-icons/bs";
 import { toast } from "sonner";
 import { tasks, users } from "../assets/data";  // Ensure users data is available
 import Tabs from "../components/Tabs";
@@ -20,17 +21,23 @@ import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import Loading from "../components/Loading";
 import Button from "../components/Button";
 import { useNavigate, useParams } from 'react-router-dom';
+import { IoMdAdd } from "react-icons/io";
+import AddSubTask from "../components/task/AddTask";
+import { TbArrowBackUp } from "react-icons/tb";
+
 
 const ICONS = {
   high: <MdKeyboardDoubleArrowUp />,
   medium: <MdKeyboardArrowUp />,
-  low: <MdKeyboardArrowDown />,
+  normal: <BsDash />,
+  low:<MdKeyboardArrowDown/>,
 };
 
 const bgColor = {
-  high: "bg-red-200",
-  medium: "bg-yellow-200",
-  low: "bg-blue-200",
+  high: "bg-red-100",
+  medium: "bg-yellow-100",
+  normal: "bg-blue-100",
+  low: "bg-green-100",
 };
 
 const TABS = [
@@ -82,6 +89,7 @@ const act_types = [
 
 const TaskDetails = () => {
   const [selected, setSelected] = useState(0);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const currentIndex = tasks.findIndex(task => task._id.toString() === id);
@@ -99,9 +107,7 @@ const TaskDetails = () => {
   useEffect(() => {
     // Find the task that matches the ID from the URL
     const currentTask = tasks.find((task) => task._id.toString() === id);
-    console.log(currentTask)
     if (currentTask) {
-      console.log(currentTask)
       setTask(currentTask);
       const relatedUsers = users.filter(user => currentTask.team.includes(user._id));
       setTaskUsers(relatedUsers);
@@ -140,13 +146,24 @@ const TaskDetails = () => {
 
   // Rest of your component rendering logic using the `task` variable
   return (
+
     <div className='w-full flex flex-col gap-3 mb-4 overflow-y-hidden'>
-     
-     <div className="flex justify-between items-center">
+   
+     <div className="flex justify-between border-b-2 pb-5 items-end">
+    
         <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
-        <button onClick={handleEditTask} className="text-blue-600 hover:text-blue-800">
-          <FaPencilAlt size={20} />
-        </button>
+        <div className="flex gap-2">
+        <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
+               < TbArrowBackUp size={20}/>
+                </button>
+          <button onClick={goToPrevTask} className={clsx('button p-2 rounded', prevTaskId ? " text-blue-700 bg-blue-200 hover:bg-blue-300 " : "text-gray-400" ) } disabled={!prevTaskId}>
+            PREVIOUS
+          </button>
+          <button onClick={goToNextTask} className={clsx('button  p-2 rounded', nextTaskId ? "text-green-700 hover:bg-green-300 bg-green-200 " : "text-gray-400" )} disabled={!nextTaskId}>
+            NEXT
+          </button>
+        </div>
+        
       </div>
       
       <Tabs tabs={TABS} setSelected={setSelected}>
@@ -155,6 +172,7 @@ const TaskDetails = () => {
             <div className='w-full flex flex-col md:flex-row gap-5 2xl:gap-8 bg-white shadow-md p-8 overflow-y-auto'>
               <div className='w-full md:w-1/2 space-y-8'>
                 <div className='flex items-center gap-5'>
+                
                   <div
                     className={clsx(
                       "flex gap-1 items-center text-base font-semibold px-3 py-1 rounded-full",
@@ -174,7 +192,10 @@ const TaskDetails = () => {
                       )}
                     />
                     <span className='text-black uppercase'>{task?.stage}</span>
+                    
                   </div>
+
+                  
                 </div>
 
                 <p className='text-gray-500'>
@@ -193,26 +214,14 @@ const TaskDetails = () => {
                     <span className='font-semibold'>Sub-Task :</span>
                     <span>{task?.subTasks?.length}</span>
                   </div>
+
+                  <Button label="Edit Task" type="edittask" className="hover:bg-amber-100 hover:transition-opacity border-2  shadow rounded-full" onClick={handleEditTask} />
+
                 </div>
 
-                <div className='space-y-4 py-6'>
-                  <p className='text-gray-600 font-semibold test-sm'>
-                    Task Members
-                  </p>
-                  <div className='space-y-3'>
-                  <h2 className="text-xl font-semibold"></h2>
-                  {taskUsers.map(user => (
-                    <div key={user._id} className="flex items-center space-x-2 my-1">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full text-white flex items-center justify-center">
-                        {user.name.charAt(0)}
-                      </div>
-                      <span>{user.name}</span>
-                    </div>
-                  ))}
-                  </div>
-                </div>
+        
 
-                <div className='space-y-4 py-6'>
+                <div className=''>
                   <p className='text-gray-500 font-semibold text-sm'>
                     SUB-TASKS
                   </p>
@@ -238,14 +247,24 @@ const TaskDetails = () => {
                         </div>
                       </div>
                     ))}
+                    <div className='w-full pb-2'>
+                      <button
+                        onClick={() => setOpen(true)}
+                        className='w-full flex gap-4 items-center text-sm text-gray-500 font-semibold disabled:cursor-not-allowed disabled::text-gray-300'
+                      >
+                        <IoMdAdd className='text-lg' />
+                        <span>ADD SUBTASK</span>
+                      </button>
+                    </div>
+                  <AddSubTask open={open} setOpen={setOpen} id={task.id} />
                   </div>
                 </div>
               </div>
               {/* RIGHT */}
               <div className='w-full md:w-1/2 space-y-8'>
               <div className="mt-4">
-                <h2 className="text-xl font-semibold">Dependencies</h2>
-                <ul>
+                <h2 className="text-xl font-semibold mb-2  border-b-2 ">Dependencies</h2>
+                <div className="flex flex-col gap-3">
                 {task.dependencies.map(depId => {
                             const depTask = tasks.find(t => t._id === depId);
                             if (!depTask) {
@@ -255,14 +274,14 @@ const TaskDetails = () => {
                                 </Typography>
                               );
                             }
-                            const stageColor = depTask.stage === 'todo' ? 'bg-red-500' : depTask.stage === 'in progress' ? 'bg-amber-300' : 'bg-green-500';
+                            const stageColor = depTask.stage === 'todo' ? 'bg-blue-300' : depTask.stage === 'in progress' ? 'bg-amber-300' : 'bg-green-300';
                             return (
                               <div key={depId} className={`${stageColor} text-black rounded p-2`}>
                                 {depTask.title}
                               </div>
                             );
                           })}
-                </ul>
+                </div>
               </div>
                 {/* Assets Section */}
                 <div className="mt-4">
@@ -276,22 +295,30 @@ const TaskDetails = () => {
                     ))}
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className='flex my-5 justify-between items-center'>
-              <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
-                HOME
-              </button>
-              <div>
-                <div className="flex gap-2">
-                <button onClick={goToPrevTask} className={clsx('button text-blue-800 p-2 rounded', prevTaskId ? "bg-blue-200 hover:bg-blue-300 " : "" ) } disabled={!prevTaskId}>
-                  PREVIOUS
-                </button>
-                <button onClick={goToNextTask} className={clsx('button text-green-800 p-2 rounded', nextTaskId ? "hover:bg-green-300 bg-green-200 " : "" )} disabled={!nextTaskId}>
-                  NEXT
-                </button>
+
+                <div className='space-y-4 py-6'>
+                  <p className='text-gray-600 font-semibold test-sm'>
+                    Task Members
+                  </p>
+                  <div className='space-y-3'>
+                  <h2 className="text-xl font-semibold"></h2>
+                  {taskUsers.map(user => (
+                    <div key={user._id} className="flex items-center space-x-2 my-1">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full text-white flex items-center justify-center">
+                        {user.name.charAt(0)}
+                      </div>
+                      <span>{user.name}</span>
+                    </div>
+                  ))}
+                  </div>
                 </div>
               </div>
+            </div>
+            
+            
+            <div className='flex my-5 justify-end items-center'>
+              
+            
             </div>
           </>
         ) : (

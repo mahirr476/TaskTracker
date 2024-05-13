@@ -11,7 +11,7 @@ import { IoMdAdd } from "react-icons/io";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { LuClipboardEdit } from "react-icons/lu";
 import { FaNewspaper, FaArrowsToDot } from "react-icons/fa6";
-import Chart from '../components/Charts/Gantt';
+import Chart from '../components/charts/Gantt';
 import Card from '../components/Card';
 import { Typography, Paper } from "@mui/material";
 import Button from "../components/Button";

@@ -9,6 +9,8 @@ import { TASK_TYPE, formatDate, BGS, prioritize } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import { Collapse, IconButton, Typography } from '@mui/material';
 import { MdExpandMore } from 'react-icons/md';
+import { FaPencilAlt  } from "react-icons/fa"; 
+import TaskTitle from '../TaskTitle';
 
 
 const EnhancedTable = ({
@@ -40,6 +42,11 @@ const EnhancedTable = ({
     });
   };
   
+  const TASK_TYPE = {
+    todo: "bg-blue-600 ",
+    "in progress": "bg-yellow-600 ",
+    completed: "bg-green-600 ",
+  };
 
   const handleSortRequest = (property) => {
     if (!enablePrioritySort && property === 'priority' || !enableCreatedAtSort && property === 'date') {
@@ -71,38 +78,68 @@ const EnhancedTable = ({
     navigate(`/tasks/${id}`);  // Navigate to task details page
   };
 
+  // const onRestoreTask = (id) => {
+  //   navigate(`/tasks/${id}`);  // Navigate to task details page
+  // };
+
+  // const onDeleteTask = (id) => {
+  //   navigate(`/tasks/${id}`);  // Navigate to task details page
+  // };
+
+  const onEditTask = (id) => {
+    navigate(`/tasks/${id}`);  // Navigate to task details page
+  };
+
+
   return (
     <>
       <Paper sx={{ width: '100%', overflow: 'hidden' }}>
         {showSearch && (
-          <Box sx={{ display: 'flex', alignItems: 'center', padding: 2 }}>
-            <TextField
-              label="Search For Task"
-              variant="outlined"
-              fullWidth
-              sx={{ flexGrow: 1, marginRight: 2 }}
-              value={filter}
-              onChange={e => setFilter(e.target.value)}
-            />
-            {showStageFilter && (
-              <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-                <InputLabel id="stage-filter-label">Filter by Stage</InputLabel>
-                <Select
-                  labelId="stage-filter-label"
-                  id="stage-filter-select"
-                  value={stageFilter}
-                  onChange={e => setStageFilter(e.target.value)}
-                  label="Filter by Stage"
-                >
-                  <MenuItem value="">All Stages</MenuItem>
-                  <MenuItem value="completed">Completed</MenuItem>
-                  <MenuItem value="in progress">In Progress</MenuItem>
-                  <MenuItem value="todo">Todo</MenuItem>
-                </Select>
-              </FormControl>
-            )}
-          </Box>
+        <Paper sx={{ padding: 2, display: 'flex', flexDirection:"column", alignItems: 'center', justifyContent:'end', width:"100%"}}>
+        <div className="flex w-full gap-2 justify-center items-center">
+              <TextField
+                  label="Search For Task"
+                  variant="outlined"
+                  fullWidth
+                  sx={{ flexGrow: 1 }}
+                  value={filter}
+                  onChange={e => setFilter(e.target.value)}
+                />
+                {showStageFilter && (
+                  <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+                    <InputLabel id="stage-filter-label">Filter by Stage</InputLabel>
+                    <Select
+                      labelId="stage-filter-label"
+                      id="stage-filter-select"
+                      value={stageFilter}
+                      onChange={e => setStageFilter(e.target.value)}
+                      label="Filter by Stage"
+                    >
+                      <MenuItem value="">All Stages</MenuItem>
+                      <MenuItem value="completed">Completed</MenuItem>
+                      <MenuItem value="in progress">In Progress</MenuItem>
+                      <MenuItem value="todo">Todo</MenuItem>
+                    </Select>
+                  </FormControl>
+                )}
+
+              </div>
+              
+                <div className='flex px-2 gap-5 w-full mt-2'>
+                  <TaskTitle label='To Do' className={TASK_TYPE.todo} />
+                  <TaskTitle
+                    label='In Progress'
+                    className={TASK_TYPE["in progress"]}
+                  />
+                  <TaskTitle label='Completed' className={TASK_TYPE.completed} />
+                </div>
+
+
+
+
+            </Paper>
         )}
+        
         <TableContainer sx={{ maxHeight: 450 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -145,7 +182,7 @@ const EnhancedTable = ({
                 {visibleColumns.includes('assets') && <TableCell>Assets</TableCell>}
                 {visibleColumns.includes('team') && <TableCell>Team</TableCell>}
                 {visibleColumns.includes('actions') && <TableCell>Actions</TableCell>}
-                <TableCell>Expand</TableCell>
+                {visibleColumns.includes('expand') && <TableCell>Expand</TableCell>}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -206,19 +243,25 @@ const EnhancedTable = ({
                   </TableCell>
                 )}
                   {visibleColumns.includes('actions') && (
-                    <TableCell>
+                    <TableCell >
+                      <div className="flex gap-2">
                       <Button onClick={() => viewDetails(task._id)} startIcon={<MdOutlineReadMore />} >
                         View
                       </Button>
+                      <Button  onClick={() => onEditTask(task._id)}><FaPencilAlt size={"15"}/></Button>
+                      </div>
                     </TableCell>
                   )}
                    {visibleColumns.includes('admin') && (
                    <TableCell>
+                    
                    <Button  onClick={() => onRestoreTask(task._id)}><MdRestore size={"20"}/></Button>
                    <Button onClick={() => onDeleteTask(task._id)} color="error"><MdDelete size={"20"} /></Button>
                  </TableCell>
                   )}
-                  <TableCell>
+                  
+                  {visibleColumns.includes('expand') && ( <TableCell>
+                    
                   <IconButton
                     onClick={() => toggleRow(task._id)}
                     aria-expanded={expandedRow === task._id}
@@ -227,6 +270,7 @@ const EnhancedTable = ({
                     <MdExpandMore style={{ transform: `rotate(${expandedIconRotation[task._id] || 0}deg)` }} />
                   </IconButton>
                 </TableCell>
+                   )}
               </TableRow>
               <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={visibleColumns.length + 1}>

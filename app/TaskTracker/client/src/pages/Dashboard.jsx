@@ -6,8 +6,7 @@ import { tasks, users } from "../assets/data";
 import EnhancedTable from '../components/task/Table'; // Adjust this path to where your EnhancedTable is located
 import UserTable from '../components/user/UserTable'; // Adjust this path to where your UserTable is located
 import Card from '../components/Card';
-import { Typography } from "@mui/material";
-
+import Title from '../components/Title';
 //need to connect logged in user and then update total info of specific user
 const Dashboard = () => {
   const totals = tasks;
@@ -46,7 +45,7 @@ const Dashboard = () => {
   return (
     <div className='h-full py-4'>
       <div className="mb-3">
-        <Typography variant="h4" component="h1" ><div className='font-bold mb-5'>My Dashboard</div></Typography>
+        <Title title={"My Dashboard"}/>
       </div>
       <div className=' grid grid-cols-1 md:grid-cols-4 gap-5'>
         {stats.map(({ icon, bg, label, total }, index) => (
@@ -63,7 +62,8 @@ const Dashboard = () => {
             showStageFilter={false}
             enablePrioritySort={true}
             enableCreatedAtSort={true}
-            visibleColumns={['progress', 'title', 'priority', 'updatedAt', 'team']}
+            enableActions={false}
+            visibleColumns={['progress', 'title', 'priority', 'updatedAt', 'actions', 'expand']}
           />
         </div>
         <div className='w-full md:w-1/3'>

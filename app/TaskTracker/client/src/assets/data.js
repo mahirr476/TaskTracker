@@ -112,7 +112,6 @@ export const users = [
     name: "Codewave Asante",
     title: "Administrator",
     email: "jane.smith@example.com",
-
     role: "Admin",
     createdAt: "2024-02-06T09:58:44.794Z",
     isActive: true,
@@ -648,7 +647,7 @@ export const tasks = [
     subTasks: [],
     createdAt: "2024-05-25T11:00:00.000Z",
     updatedAt: "2024-05-30T11:00:00.000Z",
-    __v: 0,
+    __v: 0, 
   },
   {
     _id: "65c45fb6af6ec0118be94059",

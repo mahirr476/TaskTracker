@@ -11,7 +11,7 @@ import {
   Sector,
 } from "recharts";
 import { Button, Card, CardContent, Typography } from "@mui/material";
-import { chartData } from "../assets/data";
+import { chartData } from "../../assets/data";
 
 const colorMap = {
   high: "#FEE2E2",

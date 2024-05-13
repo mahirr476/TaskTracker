@@ -24,8 +24,8 @@ const Trash = () => {
 
   return (
     <>
-      <div className='w-full md:px-1 px-0 mb-6'>
-        <div className='flex items-center justify-between mb-4'>
+      <div className='w-full md:px-1 px-0 my-6'>
+        <div className='flex items-center justify-between mb-8'>
           <Title title='Trashed Tasks' />
           <div className="flex gap-2">
           <Button

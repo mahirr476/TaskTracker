@@ -12,8 +12,10 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const addUserHandler = () => {
+    setSelectedUser(null);  // Reset selected user
     setOpenAddUser(true);
   };
+
 
   const editUserHandler = (user) => {
     setSelectedUser(user);
@@ -22,7 +24,7 @@ const Users = () => {
 
   const deleteUserHandler = (id) => {
     console.log("Delete User:", id);
-    // Here you would typically dispatch a Redux action or make an API call
+    // delete user API call
   };
 
   return (
@@ -45,14 +47,7 @@ const Users = () => {
           onDeleteUser={deleteUserHandler}
         />
 
-        {openAddUser && (
-          <AddUser
-            open={openAddUser}
-            setOpen={setOpenAddUser}
-            userData={selectedUser}
-            key={selectedUser ? selectedUser._id : 'new'}
-          />
-        )}
+      
       </div>
 
       <ConfirmatioDialog
@@ -60,6 +55,15 @@ const Users = () => {
         setOpen={() => {}} // Handler to close the dialog
         onConfirm={deleteUserHandler}
       />
+
+{openAddUser && (
+          <AddUser
+            open={openAddUser}
+            setOpen={setOpenAddUser}
+            userData={selectedUser}
+            key={selectedUser ? selectedUser._id : 'new'}
+          />
+        )}
     </>
   );
 };

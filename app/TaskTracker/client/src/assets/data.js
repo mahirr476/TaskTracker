@@ -34,6 +34,7 @@ export const projects = [
           "65c317360fd860f958baa08e", // Alex Johnson
       ],
       isActive: true,
+      status:"planning"
   },
   {
       pid: "p2",
@@ -45,6 +46,8 @@ export const projects = [
           "65c202d4aa62f32ffd1303cc", // Codewave Asante
       ],
       isActive: true,
+      status:"planning"
+
   },
   {
       pid: "p3",
@@ -56,6 +59,7 @@ export const projects = [
           "65c202d4aa62f32ffd1303cc", // Codewave Asante
       ],
       isActive: true,
+      status:"planning"
   }
 ];
 

@@ -31,17 +31,17 @@ const Tasks = () => {
       <Loading />
     </div>
   ) : (
-    <div className='w-full'>
+    <div className='w-full my-6'>
       <div className='flex items-center justify-between mb-4'>
         <Title title={ "My Tasks"} />
 
        
-          <button
+          <Button
+            label={"Create Task"}
             onClick={() => setOpen(true)}
-            className='flex gap-1 items-center bg-blue-600 text-white rounded-full p-5 py-2 2xl:py-2.5'
-          >
-           <IoMdAdd className='text-lg' />Create Task
-        </button>
+            icon={<IoMdAdd />}
+            className='bg-green-500 hover:bg-green-600 rounded-full flex flex-row-reverse justify-center items-center gap-2 text-white  py-2 px-4'
+            />
           <AddTask open={open} setOpen={setOpen}  />
 
       </div>

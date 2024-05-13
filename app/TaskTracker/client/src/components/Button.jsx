@@ -7,7 +7,7 @@ const Button = ({icon, className, label, type, onClick=() => {} }) => {
      type= {type || "button"}
      className={clsx("px-3 py-2 outline-none", className)}
      label={label || "button"}
-    //  onClick={onClickd}
+     onClick={onClick}
     >
         <span className=''>{label}</span>
         {icon && icon}

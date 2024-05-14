@@ -1,27 +1,3 @@
-
-
-export const chartData = [
-  {
-    name: "high",
-    total: 2400,
-  },
-  {
-    name: "medium",
-    total: 2210,
-
-  },
-  {
-    name: "normal",
-    total: 3210,
-
-  },
-  {
-    name: "low",
-    total: 2290,
-
-  },
-];
-
 // Projects
 export const projects = [
   {
@@ -63,42 +39,71 @@ export const projects = [
   }
 ];
 
+export const user = { //admin
+  _id: "662f32ffd1303cc",
+  name: "Codewave",
+  title: "Administrator",
+  role: "Admin",
+  email: "admin@mts.com",
+  isAdmin: true,
+  tasks: [],
+  createdAt: "2024-02-06T09:58:44.794Z",
+  updatedAt: "2024-02-07T06:13:26.757Z",
+  __v: 0,
+  isActive: true,
+  password: "Admin123!"
+};
 
 export const users = [
+  {
+    _id: "662f32ffd1303cc",
+    name: "Codewave",
+    title: "Administrator",
+    role: "Admin",
+    email: "admin@mts.com",
+    isAdmin: true,
+    tasks: [],
+    createdAt: "2024-02-06T09:58:44.794Z",
+    updatedAt: "2024-02-07T06:13:26.757Z",
+    __v: 0,
+    isActive: true,
+    password: "Admin123!"
+  },
   {
     _id: "65c5f27fb5204a81bde86833",
     name: "New User",
     title: "Designer",
-    email: "jane.smith@example.com",
+    email: "newUser@example.com",
     role: "Developer",
     isActive: false,
     createdAt: "2024-02-09T09:38:07.765Z",
     pcid: 1,
     totalUtilization: 65,
+    password: "Admin123!"
   },
   {
     _id: "65c3176a0fd860f958baa099",
     name: "Emily Wilson",
     title: "Data Analyst",
-    email: "jane.smith@example.com",
+    email: "emilyWilson@example.com",
     role: "Analyst",
     isActive: true,
     createdAt: "2024-02-07T05:38:50.816Z",
     pcid: 4,
     totalUtilization: 25,
-
+    password: "Admin123!"
   },
   {
     _id: "65c317360fd860f958baa08e",
     name: "Alex Johnson",
     title: "UX Designer",
     role: "Designer",
-    email: "jane.smith@example.com",
+    email: "alexJohnson@example.com",
     isActive: true,
     createdAt: "2024-02-07T05:37:58.862Z",
     pcid: 6,
     totalUtilization: 50,
-
+    password: "Admin123!"
   },
   {
     _id: "65c30b96e639681a13def0b5",
@@ -110,31 +115,31 @@ export const users = [
     createdAt: "2024-02-07T04:48:22.519Z",
     pcid: 6,
     totalUtilization: 70,
-
+    password: "Admin123!"
   },
   {
     _id: "65c202d4aa62f32ffd1303cc",
     name: "Codewave Asante",
     title: "Administrator",
-    email: "jane.smith@example.com",
+    email: "codewave@example.com",
     role: "Admin",
     createdAt: "2024-02-06T09:58:44.794Z",
     isActive: true,
     pcid: 6,
     totalUtilization: 15,
-
+    password: "Admin123!"
   },
   {
     _id: "65c27a0e18c0a1b750ad5cad",
     name: "John Doe",
     title: "Developer",
-    email: "jane.smith@example.com",
+    email: "johnDoeh@example.com",
     role: "Cyber Security",
     createdAt: "2024-02-06T09:58:44.794Z",
     isActive: false,
     pcid: 4,
     totalUtilization: 90,
-
+    password: "Admin123!"
   },
 ]
 
@@ -159,6 +164,7 @@ export const tasks = [
         "65c202d4aa62f32ffd1303cc",
         "65c30b96e639681a13def0b5",
         "65c317360fd860f958baa08e",
+        "65c3176a0fd860f958baa099",
       ],
     isTrashed: false,
     activities: [],
@@ -192,6 +198,8 @@ export const tasks = [
       "65c202d4aa62f32ffd1303cc",
       "65c30b96e639681a13def0b5",
       "65c317360fd860f958baa08e",
+      "65c3176a0fd860f958baa099",
+
     ],
     isTrashed: false,
     activities: [
@@ -251,6 +259,7 @@ export const tasks = [
       "65c202d4aa62f32ffd1303cc",
       "65c30b96e639681a13def0b5",
       "65c317360fd860f958baa08e",
+      "65c3176a0fd860f958baa099",
     ],
     isTrashed: false,
     activities: [
@@ -591,6 +600,7 @@ export const tasks = [
   },
   {
     _id: "65c5f12ab5204a81bde866d4",
+    pid: "p1",
     title: "Final Project Integration",
     description: "Integrate all project modules and perform comprehensive testing.",
     startDate: "2024-06-01",
@@ -598,12 +608,14 @@ export const tasks = [
     dependencies: ["65c5d547660756f6fd453a7a", "65c46026af6ec0118be9407a"],
     date: "2024-06-01T00:00:00.000Z",
     priority: "high",
-    stage: "in progress",
+    stage: "completed",
     assets: [],
     team: [
       "65c202d4aa62f32ffd1303cc",
       "65c30b96e639681a13def0b5",
       "65c317360fd860f958baa08e",
+      "65c3176a0fd860f958baa099", // Emily Wilson
+
     ],
     isTrashed: false,
     activities: [],
@@ -770,19 +782,6 @@ export const TrashedTasks = [
   }
 ];
 
-export const user = { //admin
-  _id: "662f32ffd1303cc",
-  name: "Codewave",
-  title: "Administrator",
-  role: "Admin",
-  email: "admin@mts.com",
-  isAdmin: true,
-  tasks: [],
-  createdAt: "2024-02-06T09:58:44.794Z",
-  updatedAt: "2024-02-07T06:13:26.757Z",
-  __v: 0,
-  isActive: true,
-};
 
 export const activitiesData = [
   {

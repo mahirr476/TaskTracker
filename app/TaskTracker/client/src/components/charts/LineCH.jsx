@@ -11,7 +11,7 @@ const LineCH = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="grade" stroke="#00805b" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="grade" stroke="#d69600" activeDot={{ r: 8 }} />
       </LineChart>
     </ResponsiveContainer>
   );

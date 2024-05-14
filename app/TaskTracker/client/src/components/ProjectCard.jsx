@@ -3,7 +3,7 @@ import { Card, CardActionArea, CardContent, Typography, Box } from '@mui/materia
 import PeopleIcon from '@mui/icons-material/People';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
-const colors = ['#f44336', '#2196f3', '#4caf50', '#ffeb3b', '#ff9800', '#9c27b0']; // Color options
+const colors = ['#ffbab5', '#ffd1b5', '#d6ffb5', '#b5ffeb', '#c4b5ff', '#ffb5f5']; // Color options
 
 const ProjectCard = ({ project, onViewMore }) => {
     const color = colors[Math.floor(Math.random() * colors.length)]; // Randomly pick a color
@@ -11,7 +11,7 @@ const ProjectCard = ({ project, onViewMore }) => {
     return (
         <Card sx={{ maxWidth: 345, m: 2 }} className="transition-shadow shadow-md hover:shadow-lg">
             <CardActionArea onClick={() => onViewMore(project.pid)}>
-                <div style={{ backgroundColor: color, height: '25px' }} />
+                <div style={{ backgroundColor: color, height: '10px' }} />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {project.projectName}
@@ -36,6 +36,7 @@ const ProjectCard = ({ project, onViewMore }) => {
                         </Typography>
                     </Box>
                 </CardContent>
+                <div style={{ backgroundColor: color, height: '10px' }} />
             </CardActionArea>
         </Card>
     );

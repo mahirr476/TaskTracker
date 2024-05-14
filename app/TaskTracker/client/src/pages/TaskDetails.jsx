@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import moment from "moment";
 import React, { useState, useEffect } from "react";
-import { FaBug, FaTasks, FaThumbsUp, FaUser  } from "react-icons/fa"; 
+import { FaBug, FaTasks, FaThumbsUp, FaUser, FaPencilAlt  } from "react-icons/fa"; 
 import { GrInProgress } from "react-icons/gr";
 import {
   MdKeyboardArrowDown,
@@ -13,11 +13,11 @@ import {
   MdInsertDriveFile, 
   MdOutlineQueuePlayNext
 } from "react-icons/md";
-
+import { useSelector } from 'react-redux'; // Import to access Redux store
 import { RxActivityLog } from "react-icons/rx";
 import { BsDash } from "react-icons/bs";
 import { toast } from "sonner";
-import { tasks, users } from "../assets/data";  // Ensure users data is available
+import { tasks  as allTasks, users as allUsers} from "../assets/data";  // Ensure users data is available
 import Tabs from "../components/Tabs";
 import { PRIOTITYSTYELS, TASK_TYPE, getInitials } from "../utils";
 import Loading from "../components/Loading";
@@ -25,6 +25,7 @@ import Button from "../components/Button";
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoMdAdd } from "react-icons/io";
 import AddSubTask from "../components/task/AddSubTask";
+import AddTask from '../components/task/AddTask'; 
 import { TbArrowBackUp } from "react-icons/tb";
 
 
@@ -94,41 +95,42 @@ const TaskDetails = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
-  const currentIndex = tasks.findIndex(task => task._id.toString() === id);
+  const user = useSelector(state => state.auth.user); // Access the logged in user from Redux store
+  const [task, setTask] = useState(null);
+  const [tasks, setTasks] = useState([]); // This will store tasks relevant to the user
+  const [taskMembers, setTaskMembers] = useState([]);
+
+  const currentIndex = tasks.findIndex(t => t._id.toString() === id);
   const nextTaskId = currentIndex >= 0 && currentIndex < tasks.length - 1 ? tasks[currentIndex + 1]._id : null;
   const prevTaskId = currentIndex > 0 ? tasks[currentIndex - 1]._id : null;
-  const goToHome = () => navigate('/tasks');  // Adjust according to your home route
+
   const goToPrevTask = () => prevTaskId && navigate(`/tasks/${prevTaskId}`);
   const goToNextTask = () => nextTaskId && navigate(`/tasks/${nextTaskId}`);
+  const goToHome = () => navigate('/tasks'); // Adjust according to your home route
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
-  const [task, setTask] = useState(null);  // State to hold the current task
-  const [taskUsers, setTaskUsers] = useState([]);
-
-
+ 
   useEffect(() => {
-    // Find the task that matches the ID from the URL
-    const currentTask = tasks.find((task) => task._id.toString() === id);
-    if (currentTask) {
-      setTask(currentTask);
-      const relatedUsers = users.filter(user => currentTask.team.includes(user._id));
-      setTaskUsers(relatedUsers);
-    } else {
-      // Handle the case where no task is found
-      console.log("No task found with ID:", id);
-      // Optionally redirect the user or show an error message
+    const userTasks = allTasks.filter(t => t.team.includes(user._id));
+    setTasks(userTasks);
+    const foundTask = userTasks.find(t => t._id.toString() === id);
+    setTask(foundTask);
+    if (foundTask) {
+      const relatedUsers = allUsers.filter(user => foundTask.team.includes(user._id));
+      setTaskMembers(relatedUsers);
     }
-  }, [id]);  // Re-run this effect if the ID changes
+  }, [id, user]);
 
   if (!task) {
-    // Render a loading or not found message while the task is null
-    return <p>Loading task details or task not found...</p>;
+    return <Loading />; // Display loading while task is being fetched or if it does not exist
   }
 
-  const handleEditTask = () => {
+  const toggleEditTaskModal = () => {
     // Function to navigate to the task edit page or open a modal
-    console.log("Edit task:", id);
-    navigate(`/edit-task/${id}`);
+    setSelectedTask(task); // Set the task to edit
+    setIsEditModalOpen(true); // Open the modal
   };
 
   const goToProject = () => {
@@ -163,16 +165,16 @@ const TaskDetails = () => {
     
         <h1 className='text-2xl text-gray-600 font-bold'>{task.title}</h1>
         <div className="flex gap-2">
-          <button onClick={goToHome} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
+          <button onClick={goToHome} className='button hover:ease-in-out duration-300 bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
             <TbArrowBackUp size={20}/>
           </button>
-          <button onClick={goToProject} className='button flex justify-center items-center gap-2 bg-red-200 hover:bg-red-300 text-red-800 p-2 rounded'>
+          <button onClick={goToProject} className='button hover:ease-in-out duration-300 flex justify-center items-center gap-2 bg-red-200 hover:bg-red-300 text-red-800 p-2 rounded'>
           <MdOutlineQueuePlayNext /> PROJECT
           </button>
-          <button onClick={goToPrevTask} className={clsx('button p-2 rounded', prevTaskId ? " text-blue-700 bg-blue-200 hover:bg-blue-300 " : "text-gray-400" ) } disabled={!prevTaskId}>
+          <button onClick={goToPrevTask} className={clsx('button hover:ease-in-out duration-300 p-2 rounded', prevTaskId ? " text-blue-700 bg-blue-200 hover:bg-blue-300 " : "text-gray-400" ) } disabled={!prevTaskId}>
             PREVIOUS
           </button>
-          <button onClick={goToNextTask} className={clsx('button  p-2 rounded', nextTaskId ? "text-green-700 hover:bg-green-300 bg-green-200 " : "text-gray-400" )} disabled={!nextTaskId}>
+          <button onClick={goToNextTask} className={clsx('button hover:ease-in-out duration-300 p-2 rounded', nextTaskId ? "text-green-700 hover:bg-green-300 bg-green-200 " : "text-gray-400" )} disabled={!nextTaskId}>
             NEXT
           </button>
         </div>
@@ -228,7 +230,7 @@ const TaskDetails = () => {
                     <span>{task?.subTasks?.length}</span>
                   </div>
 
-                  <Button label="Edit Task" type="edittask" className="hover:bg-amber-100 hover:transition-opacity border-2  shadow rounded-full" onClick={handleEditTask} />
+                  <Button label="Edit Task" type="edittask" icon={<FaPencilAlt/>}className="hover:bg-amber-100 hover:ease-in-out duration-300 flex flex-row-revese justify-center items-center gap-2 border-2  shadow rounded-full" onClick={() => toggleEditTaskModal(task)} />
 
                 </div>
 
@@ -263,7 +265,7 @@ const TaskDetails = () => {
                     <div className='w-full pb-2'>
                       <button
                         onClick={() => setOpen(true)}
-                        className='w-full flex gap-4 items-center text-sm text-gray-500 font-semibold disabled:cursor-not-allowed disabled::text-gray-300'
+                        className='w-full flex gap-4 hover:ease-in-out duration-300 hover:text-purple-400 items-center text-sm text-gray-500 font-semibold disabled:cursor-not-allowed disabled::text-gray-300'
                       >
                         <IoMdAdd className='text-lg' />
                         <span>ADD SUBTASK</span>
@@ -289,9 +291,8 @@ const TaskDetails = () => {
                             }
                             const stageColor = depTask.stage === 'todo' ? 'bg-blue-300' : depTask.stage === 'in progress' ? 'bg-amber-300' : 'bg-green-300';
                             return (
-                              <div key={depId} className={`${stageColor} text-black rounded p-2`}>
-                                {depTask.title}
-                              </div>
+                              <Button key={depId} label={depTask.title} className={`${stageColor} text-black hover:shadow-lg hover:ease-in-out duration-300 rounded p-2`} onClick={() => {navigate(`/tasks/${depId}`);}}/>
+                                
                             );
                           })}
                 </div>
@@ -315,7 +316,7 @@ const TaskDetails = () => {
                   </p>
                   <div className='space-y-3'>
                   <h2 className="text-xl font-semibold"></h2>
-                  {taskUsers.map(user => (
+                  {taskMembers.map(user => ( 
                     <div key={user._id} className="flex items-center space-x-2 my-1">
                       <div className="w-8 h-8 bg-blue-500 rounded-full text-white flex items-center justify-center">
                         {user.name.charAt(0)}
@@ -340,6 +341,12 @@ const TaskDetails = () => {
           </>
         )}
       </Tabs>
+      <AddTask
+      task={selectedTask}
+      open={isEditModalOpen}
+      setOpen={setIsEditModalOpen}
+      users={allUsers}  // 
+    />
     </div>
   );
 };

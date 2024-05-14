@@ -1,26 +1,60 @@
-import React, { useEffect } from 'react'
+// Login.jsx
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import Textbox from '../components/Textbox'
 import Button from '../components/Button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from '../redux/slices/authSlice' // Adjust action creators as per your authSlice
+import { users } from '../assets/data'
+import { Transition } from '@headlessui/react';
+import { MdOutlineLogin } from "react-icons/md";
+import { FaUserPlus } from "react-icons/fa6";
+
+
+
 const Login = () => {
-  const {user} = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const {
-    register, 
-    handleSubmit, 
-    formState: {errors},
-  } = useForm()
-
-  const navigate = useNavigate();
-  const submitHandler = async(data)=> {
-      console.log("submitted")
-  }
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm();
   
   useEffect(() => {
-    user && navigate("/dashboard")
-  }, [user]) // whenever the user changes, dashboard will attempt to run again 
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
+  useEffect(() => {
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
+
+  const submitHandler = data => {
+    console.log(data);
+    if (isRegistering) {
+      // Here, add your registration logic
+      console.log('Registering new user:', data);
+      // After registration, you might want to automatically log them in or confirm their email, etc.
+      setIsRegistering(false); // Switch back to login form after registration
+    } else {
+      const foundUser = users.find(u => u.email === data.email && u.password === data.password);
+      if (foundUser) {
+        dispatch(loginUser(foundUser));
+        navigate("/dashboard");
+      } else {
+        console.error("Invalid credentials");
+      }
+    }
+  };
+
+  const toggleForm = () => {
+    setIsRegistering(!isRegistering);
+    reset(); // Reset form fields when switching forms
+  };
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
@@ -45,8 +79,17 @@ const Login = () => {
         
         {/*Right Side*/}
         <div className="w-full md:w-1/3 p-4 md:p-1 flex flex-col justify-center items-center">
-          <form onSubmit={handleSubmit(submitHandler)}
-          className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'>
+        <Transition
+            show={!isRegistering}
+            as="div"
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+          <form onSubmit={handleSubmit(submitHandler)} className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'>
             <div className="">
               <p className="text-blue-600 text-3xl font-bold text-center">Welcome Back!</p>
               <p className='text-center text-base text-gray-700'>Keep all your credentials safe</p>
@@ -88,6 +131,94 @@ const Login = () => {
                 className='w-full h-10 bg-blue-700 text-white rounded-full' />
             </div>
           </form>
+          </Transition>
+
+          <Transition
+            show={isRegistering}
+            as="div"
+            enter="transition-opacity duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="transition-opacity duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+          <form onSubmit={handleSubmit(submitHandler)} className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'>
+
+            <div className="text-center">
+              <p className="text-3xl font-bold text-blue-600">Register</p>
+              <p className='text-gray-700'>Create your account</p>
+            </div>
+
+            <Textbox 
+              placeholder="Full Name"
+              type="text"
+              name="name"
+              label="Full Name"
+              className="w-full rounded-full"
+              register={register("name", {
+                required: "Full Name is required!",
+              })}
+              error={errors.name ? errors.name.message : ""}
+            />
+
+            <Textbox 
+              placeholder="email@example.com"
+              type="email"
+              name="email"
+              label="Email Address"
+              className="w-full rounded-full"
+              register={register("email", {
+                required: "Email is required!",
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email is not valid",
+                }
+              })}
+              error={errors.email ? errors.email.message : ""}
+            />
+
+            <Textbox 
+              placeholder="Password"
+              type="password"
+              name="password"
+              label="Password"
+              className="w-full rounded-full"
+              register={register("password", {
+                required: "Password is required!",
+                minLength: {
+                  value: 8,
+                  message: "Password must have at least 8 characters"
+                }
+              })}
+              error={errors.password ? errors.password.message : ""}
+            />
+
+            <Textbox 
+              placeholder="Confirm Password"
+              type="password"
+              name="confirmPassword"
+              label="Confirm Password"
+              className="w-full rounded-full"
+              register={register("confirmPassword", {
+                required: "Please confirm your password",
+                validate: (value) => value === watch('password') || "Passwords do not match"
+              })}
+              error={errors.confirmPassword ? errors.confirmPassword.message : ""}
+            />
+
+            <Button 
+              type='submit'
+              label='Register'
+              className='w-full h-10 bg-blue-700 text-white rounded-full'
+            />
+
+            </form>
+          </Transition>
+          
+          <Button onClick={toggleForm} className='mt-4 flex justify-center items-center flex-row-reverse gap-2 text-blue-700 hover:underline' icon={isRegistering ? <MdOutlineLogin/>: <FaUserPlus />} label={isRegistering ? "Back to Login" : "Create New Account"}/>
+            
+
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaList } from "react-icons/fa";
 import { MdGridView } from "react-icons/md";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux"; // Import to access Redux store
 import Loading from "../components/Loading";
 import Title from "../components/Title";
 import Button from "../components/Button";
@@ -24,7 +24,21 @@ const Tasks = () => {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { user } = useSelector(state => state.auth); // Access the logged in user from Redux state
 
+  const userTasks = user && user.role === "Admin" ? tasks : tasks.filter(task => task.team.includes(user._id));
+
+  // Handle cases where there is no logged in user
+  useEffect(() => {
+    if (!user) {
+      setLoading(true); // Optionally use loading to handle delay or redirection
+      // Consider redirecting or showing an appropriate message if no user is logged in
+    } else {
+      setLoading(false);
+    }
+  }, [user]);
+
+  
 
   return loading ? (
     <div className='py-10'>
@@ -52,11 +66,11 @@ const Tasks = () => {
       
 
         {selected !== 1 ? (
-          <BoardView tasks={tasks} users={users}
+          <BoardView tasks={userTasks} users={users}
           />
         ) : (
           <div className='w-full'>
-            <EnhancedTable tasks={tasks} 
+            <EnhancedTable tasks={userTasks} 
             users={users}
             showSearch={true}
             showStageFilter={true}

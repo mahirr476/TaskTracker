@@ -1,19 +1,24 @@
-import React, { Fragment, useState } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-import { FaUser, FaUserLock } from 'react-icons/fa'
-import { IoLogOutOutline } from 'react-icons/io5'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { getInitials } from '../utils/index'
+import React, { Fragment, useState } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { FaUser, FaUserLock } from 'react-icons/fa';
+import { IoLogOutOutline } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getInitials } from '../utils/index';
+import { logoutUser } from '../redux/slices/authSlice';
 
 const UserAvatar = ({ user }) => {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const logoutHandler = () => {
-        console.log("logged out")
-        navigate('/login')
-    }
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const logoutHandler = () => {
+        dispatch(logoutUser());
+        navigate('/log-in');
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile');  // Redirects to the profile page
+    };
     return (
         <div className="relative inline-block text-left">
             <Menu as="div">
@@ -21,7 +26,7 @@ const UserAvatar = ({ user }) => {
                     <span className='text-black font-semibold'>{getInitials(user?.name || "Default User")}</span>
                 </Menu.Button>
 
-                <Transition 
+                <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
                     enterFrom="transform opacity-0 scale-95"
@@ -34,29 +39,23 @@ const UserAvatar = ({ user }) => {
                         <div className="p-4">
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button
-                                        onClick={() => setOpen(true)}
-                                        className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base">
+                                    <button onClick={handleProfileClick} className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base">
                                         <FaUser className='mr-2' aria-hidden="true" />
                                         Profile
                                     </button>
                                 )}
                             </Menu.Item>
-                            <Menu.Item>
+                            {/* <Menu.Item>
                                 {({ active }) => (
-                                    <button
-                                        onClick={() => setOpenPassword(true)}
-                                        className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base">
+                                    <button className="text-gray-700 group flex w-full items-center rounded-md px-2 py-2 text-base">
                                         <FaUserLock className='mr-2' aria-hidden="true" />
                                         Change Password
                                     </button>
                                 )}
-                            </Menu.Item>
+                            </Menu.Item> */}
                             <Menu.Item>
                                 {({ active }) => (
-                                    <button
-                                        onClick={logoutHandler}
-                                        className="text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base">
+                                    <button onClick={logoutHandler} className="text-red-600 group flex w-full items-center rounded-md px-2 py-2 text-base">
                                         <IoLogOutOutline className='mr-2' aria-hidden="true" />
                                         Logout
                                     </button>
@@ -67,7 +66,7 @@ const UserAvatar = ({ user }) => {
                 </Transition>
             </Menu>
         </div>
-    )
-}
+    );
+};
 
-export default UserAvatar
+export default UserAvatar;

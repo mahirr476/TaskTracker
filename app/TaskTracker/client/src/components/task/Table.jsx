@@ -99,9 +99,6 @@ const toggleEditTaskModal = (task) => {
   //   navigate(`/tasks/${id}`);  // Navigate to task details page
   // };
 
-  const handleModalContentClick = (e) => {
-    e.stopPropagation(); // Stop click events from closing the modal
-  };
 
   return (
 

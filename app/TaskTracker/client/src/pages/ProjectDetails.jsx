@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { projects, tasks as globalTasks, users as globalUsers } from '../assets/data';
+import { useSelector } from 'react-redux'; // Import to access Redux store
+import { projects as allProjects, tasks as globalTasks, users as globalUsers } from '../assets/data';
 import EnhancedTable from '../components/task/Table';
 import BoardView from '../components/BoardView'; 
 import UserTable from '../components/user/UserTable';
@@ -35,27 +36,29 @@ const ProjectDetails = () => {
   const [users, setUsers] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const [loading, setLoading] = useState(true); // State to manage loading
+  const user = useSelector(state => state.auth.user); // Access the logged in user from Redux state
+  const [userProjects, setUserProjects] = useState([]);
 
 
   useEffect(() => {
-    setLoading(true); // Start loading
-    const foundProjectIndex = projects.findIndex(p => p.pid === pid);
-    if (foundProjectIndex !== -1) {
-      setProject(projects[foundProjectIndex]);
-      const filteredTasks = globalTasks.filter(t => t.pid === projects[foundProjectIndex].pid);
-      setTasks(filteredTasks);
-      const teamIds = new Set(projects[foundProjectIndex].teamMembers);
-      const filteredUsers = globalUsers.filter(user => teamIds.has(user._id));
-      setUsers(filteredUsers);
-    } else {
-      console.log("No project found with pid:", pid);
+    if (user) {
+      const relatedProjects = allProjects.filter(p => p.teamMembers.includes(user._id));
+      setUserProjects(relatedProjects);
+
+      const foundProject = relatedProjects.find(p => p.pid === pid);
+      if (foundProject) {
+        setProject(foundProject);
+        setTasks(globalTasks.filter(t => t.pid === foundProject.pid));
+        setUsers(globalUsers.filter(u => foundProject.teamMembers.includes(u._id)));
+      }
+      setLoading(false);
     }
-    setLoading(false); // Stop loading
-  }, [pid]);
+  }, [pid, user]);
 
   if (loading) {
-    return <Loading />; // Render loading component if loading is true
+    return <Loading />;
   }
+  
 
   // Calculate task statistics 
   const totalTasks = tasks.length; 
@@ -94,9 +97,10 @@ const ProjectDetails = () => {
     },
   ];
 
-  const currentIndex = projects.findIndex(project => project.pid === pid);
-  const nextPid = currentIndex >= 0 && currentIndex < projects.length - 1 ? projects[currentIndex + 1].pid : null;
-  const prevPid = currentIndex > 0 ? projects[currentIndex - 1].pid : null;
+  const currentIndex = userProjects.findIndex(p => p.pid === pid);
+  const nextPid = currentIndex >= 0 && currentIndex < userProjects.length - 1 ? userProjects[currentIndex + 1].pid : null;
+  const prevPid = currentIndex > 0 ? userProjects[currentIndex - 1].pid : null;
+
   const goToProjects = () => navigate('/projects');
   const goToPrevProject = () => prevPid && navigate(`/projects/${prevPid}`);
   const goToNextProject = () => nextPid && navigate(`/projects/${nextPid}`);
@@ -115,10 +119,10 @@ const ProjectDetails = () => {
                 <button onClick={goToProjects} className='button bg-gray-200 hover:bg-gray-300 text-gray-800 p-2 rounded'>
                   <TbArrowBackUp size={20}/>
                 </button>
-                  <button onClick={goToPrevProject} className={clsx('button text-blue-800 p-2 rounded', prevPid ? "bg-blue-200 hover:bg-blue-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === 0}>
+                  <button onClick={goToPrevProject} className={clsx('button  p-2 rounded', prevPid ? "bg-blue-200 text-blue-800 hover:bg-blue-300 " : "text-gray-300" )} disabled={userProjects.findIndex(project => project.pid === pid) === 0}>
                     PREVIOUS
                   </button>
-                  <button onClick={goToNextProject} className={clsx('button text-green-800 p-2 rounded', nextPid ? "bg-green-200 hover:bg-green-300 " : "text-gray-300" )} disabled={projects.findIndex(project => project.pid === pid) === projects.length - 1}>
+                  <button onClick={goToNextProject} className={clsx('button  p-2 rounded', nextPid ? "bg-green-200 text-green-800 hover:bg-green-300 " : "text-gray-300" )} disabled={userProjects.findIndex(project => project.pid === pid) === userProjects.length - 1}>
                     NEXT
                   </button>
               </div>
@@ -127,11 +131,11 @@ const ProjectDetails = () => {
           </div>
          <div className="flex flex-wrap justify-between items-center mb-5 ">
           <div className='w-full h-full lg:w-2/3 '>
-          <Title title="Gantt Chart" className={"text-4xl font-light mb-5"} />
+          <Title title="Gantt Chart" className={"text-3xl font-normal my-2"} />
 
             <Chart tasks={tasks} users={users}/>
           </div>
-           <div className='w-full lg:w-1/3 flex flex-wrap  pl-5 sm:p-1 mt-5 lg:mt-0 gap-4'>
+           <div className='w-full lg:w-1/3 flex flex-wrap  pl-5 sm:p-1 mt-5 lg:mt-0 lg:pl-3 gap-4'>
 
              {stats.map(({ icon, bg, label, total }, index) => (
                <Card key={index} icon={icon} bg={bg} label={label} count={total} />

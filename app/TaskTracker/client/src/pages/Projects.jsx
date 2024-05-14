@@ -1,5 +1,5 @@
 // Projects.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 import ProjectCard from '../components/ProjectCard';
 import { projects as mockProjects } from '../assets/data'; // Import projects data
@@ -8,12 +8,25 @@ import { IoMdAdd } from "react-icons/io";
 import Button from '../components/Button';
 import Title from '../components/Title';
 import AddProj from '../components/projects/AddProj';
+import { useSelector } from 'react-redux'; // Import to access Redux store
+
 
 const Projects = () => {
     const [projects, setProjects] = useState(mockProjects);
     const navigate = useNavigate();
     const [openAddProj, setOpenAddProj] = useState(false);
     const [selectedProj, setSelectedProj] = useState(null);
+    const user = useSelector(state => state.auth.user); // Access the logged in user from Redux state
+
+     // Effect to filter projects based on the logged-in user
+     useEffect(() => {
+        if (user) {
+            const userProjects = mockProjects.filter(project => project.teamMembers.includes(user._id));
+            setProjects(userProjects);
+        } else {
+            setProjects([]); // Clear projects or handle guest users
+        }
+    }, [user]);
 
     const addProjHandler = () => {
         setSelectedProj(null);  // Reset selected user

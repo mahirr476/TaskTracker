@@ -1,4 +1,4 @@
-export const calculateKPIs = (userId, tasks, activities) => {
+export const calculateKPIs = (userId, tasks, totalUtilization) => {
     const userTasks = tasks.filter(task => task.team.includes(userId) && !task.isTrashed);
     const completedTasks = userTasks.filter(task => task.stage === "completed");
     const overdueTasks = userTasks.filter(task => new Date(task.endDate) < new Date() && task.stage !== "completed");
@@ -6,8 +6,8 @@ export const calculateKPIs = (userId, tasks, activities) => {
     const taskCompletionRate = completedTasks.length / (userTasks.length || 1);
     const timeliness = 1 - (overdueTasks.length / (userTasks.length || 1));
   
-    const userActivities = activities.filter(activity => activity.by === userId);
-    const engagementLevel = userActivities.length;
+    // const userActivities = totalUtilization.filter(activity => user.by === userId);
+    const engagementLevel = totalUtilization;
   
     return {
       numberOfTasks: userTasks.length,

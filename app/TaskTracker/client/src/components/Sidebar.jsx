@@ -1,86 +1,58 @@
-import React, { useState } from 'react';
-import {
-    MdDashboard,
-    MdOutlineAddTask,
-    MdSettings,
-} from "react-icons/md";
+import React from 'react';
+import { MdDashboard, MdOutlineAddTask, MdSettings } from "react-icons/md";
 import { FaTasks, FaTrashAlt, FaUsers } from "react-icons/fa";
 import { PiProjectorScreenChart } from "react-icons/pi";
-import { CiGlobe } from "react-icons/ci";
 import { TbSquarePercentage } from "react-icons/tb";
-import { IoCalendarSharp } from "react-icons/io5";
-import { setOpenSidebar } from '../redux/slices/authSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import clsx from "clsx";
 
 const linkData = [
     {
         label: "Dashboard",
-        link: "dashboard",
-        icon: <MdDashboard />
+        link: "/dashboard",
+        icon: <MdDashboard />,
+        adminOnly: false,
     },
     {
         label: "Tasks",
-        link: "tasks",
+        link: "/tasks",
         icon: <FaTasks />,
+        adminOnly: false,
     },
-    // {
-    //     label: "Calendar",
-    //     link: "calendar",
-    //     icon: <IoCalendarSharp />
-    // },
     {
         label: "Projects",
-        link: "projects",
-        icon: <PiProjectorScreenChart />
+        link: "/projects",
+        icon: <PiProjectorScreenChart />,
+        adminOnly: false,
     },
     {
         label: "KPI",
-        link: "kpi",
-        icon: <TbSquarePercentage />
+        link: "/kpi",
+        icon: <TbSquarePercentage />,
+        adminOnly: false,
     },
-
     {
         label: "Team",
-        link: "team",
-        icon: <FaUsers />
+        link: "/team",
+        icon: <FaUsers />,
+        adminOnly: true,
     },
     {
         label: "Trash",
-        link: "trashed",
-        icon: <FaTrashAlt />
+        link: "/trashed",
+        icon: <FaTrashAlt />,
+        adminOnly: true,
     },
 ];
 
 const Sidebar = () => {
     const { user } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
     const location = useLocation();
     const path = location.pathname.split("/")[1];
-    const [isTasksOpen, setIsTasksOpen] = useState(false);
 
-    const closeSidebar = () => {
-        dispatch(setOpenSidebar(false));
-    };
-
-    const NavLink = ({ el, isSubLink = false }) => {
-        const isActive = path === el.link.split("/")[0];
-        return (
-            <Link
-                to={el.link}
-                onClick={closeSidebar}
-                className={clsx(
-                    "flex gap-2 px-3 py-2 rounded-full items-center text-base hover:bg-amber-100",
-                    isActive ? "bg-amber-200 text-gray-900 hover:text-gray-800" : "text-gray-800",
-                    isSubLink && "pl-10 rounded-none"
-                )}
-            >
-                {el.icon}
-                <span className={isActive ? "" : "hover:text-[#2564ed]"}>{el.label}</span>
-            </Link>
-        );
-    };
+    // Filter links based on the user role
+    const availableLinks = linkData.filter(link => !link.adminOnly || user.role === "admin");
 
     return (
         <div className='w-full h-full flex flex-col gap-6 p-5 '>
@@ -94,18 +66,29 @@ const Sidebar = () => {
             </h1>
 
             <div className='flex-1 flex flex-col gap-y-5 py-8'>
-                {linkData.map((link) => {
-                    return <NavLink key={link.label} el={link} />                  
-                })}
-
+                {availableLinks.map((link) => (
+                    <Link
+                        key={link.label}
+                        to={link.link}
+                        className={clsx(
+                            "flex gap-2 px-3 py-2 rounded-full items-center text-base",
+                            path === link.link ? "bg-amber-200 text-gray-900" : "hover:bg-amber-100 text-gray-800"
+                        )}
+                    >
+                        {link.icon}
+                        <span>{link.label}</span>
+                    </Link>
+                ))}
             </div>
 
-            <div>
-                <button className='w-full flex gap-2 p-2 items-center text-lg text-gray-800 '>
-                    <MdSettings />
-                    <span>Settings</span>
-                </button>
-            </div>
+            {user.role === "admin" && (
+                <div>
+                    <button className='w-full flex gap-2 p-2 items-center text-lg text-gray-800 '>
+                        <MdSettings />
+                        <span>Settings</span>
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

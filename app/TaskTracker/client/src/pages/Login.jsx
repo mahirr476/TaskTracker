@@ -1,26 +1,39 @@
+// Login.jsx
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import Textbox from '../components/Textbox'
 import Button from '../components/Button'
-import { useSelector } from 'react-redux'
-const Login = () => {
-  const {user} = useSelector(state => state.auth);
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser, logoutUser } from '../redux/slices/authSlice' // Adjust action creators as per your authSlice
+import { users } from '../assets/data'
 
+const Login = () => {
+  const { user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
   const {
     register, 
     handleSubmit, 
-    formState: {errors},
+    formState: { errors },
   } = useForm()
 
   const navigate = useNavigate();
-  const submitHandler = async(data)=> {
-      console.log("submitted")
+
+  const submitHandler = async(data) => {
+    console.log(data)
+    const foundUser = users.find(u => u.email === data.email && u.password === data.password);
+    if (foundUser) {
+      dispatch(loginUser(foundUser));
+      navigate("/dashboard");
+    } else {
+      console.error("Invalid credentials");
+    }
   }
   
+  
   useEffect(() => {
-    user && navigate("/dashboard")
-  }, [user]) // whenever the user changes, dashboard will attempt to run again 
+    if (user) navigate("/dashboard");
+  }, [user, navigate]);
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">

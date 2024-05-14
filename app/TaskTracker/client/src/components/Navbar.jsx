@@ -5,8 +5,10 @@ import { FiLayers } from "react-icons/fi";
 import UserAvatar from './UserAvatar';
 import NotificationPanel from './NotificationPanel'
 import { setOpenSidebar } from '../redux/slices/authSlice';
+import {users} from '../assets/data'
 
 const Navbar = () => {
+    
     const {user} = useSelector((state) => state.auth)
     const dispatch = useDispatch();
   return (
@@ -27,8 +29,7 @@ const Navbar = () => {
         
         <div className="flex gap-2 items-center">
             <NotificationPanel />
-
-            <UserAvatar />
+            <UserAvatar user={user}/>
         </div>
     </div>
   )

@@ -1,18 +1,19 @@
 // KPI.jsx
 import React, { useState, useEffect } from 'react';
 import { calculateKPIs, calculateOverallGrade } from '../utils/kpi';
-import { tasks, activitiesData, weekData } from '../assets/data'; // Ensure data is correctly imported
+import { tasks, users, weekData } from '../assets/data'; // Ensure data is correctly imported
 import { CircularProgress, Typography, Paper, Grid } from '@mui/material';
 import LineCH from '../components/charts/LineCH';
 import Title from '../components/Title';
 
-const KPI = ({ userId }) => {
+const KPI = ({  }) => {
+  const userId = users[1]._id;
   const [kpiData, setKpiData] = useState(null);
   const [overallGrade, setOverallGrade] = useState(0);
   const [weeklyGrades, setWeeklyGrades] = useState([]);
 
   useEffect(() => {
-    const data = calculateKPIs(userId, tasks, activitiesData);
+    const data = calculateKPIs(userId, tasks, users[1].totalUtilization);
     setKpiData(data);
     const grade = calculateOverallGrade(data);
     setOverallGrade(grade);
@@ -38,7 +39,7 @@ const KPI = ({ userId }) => {
         {Object.entries(kpiData).map(([key, value]) => (
           <Grid item xs={12} md={6} lg={4} key={key}>
             <Paper elevation={3} className="p-4 flex flex-col items-center justify-center rounded-lg shadow-lg">
-              <Typography variant="h6" className="capitalize mb-2" color="#00805b"><div>{key.replace(/([A-Z])/g, ' $1')}</div></Typography>
+              <Typography variant="h6" className="capitalize mb-2" color="#d69600"><div>{key.replace(/([A-Z])/g, ' $1')}</div></Typography>
               <Typography variant="h5" className="font-bold">
                 {typeof value === 'number' ? `${value.toFixed(2)}${key.includes('Rate') ? '%' : ''}` : value}
               </Typography>

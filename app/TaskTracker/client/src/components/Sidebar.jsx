@@ -36,13 +36,13 @@ const linkData = [
         label: "Team",
         link: "/team",
         icon: <FaUsers />,
-        adminOnly: true,
+        adminOnly: false,
     },
     {
         label: "Trash",
         link: "/trashed",
         icon: <FaTrashAlt />,
-        adminOnly: true,
+        adminOnly: false,
     },
 ];
 

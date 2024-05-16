@@ -20,7 +20,7 @@ const Dashboard = () => {
     }
   }, [user, navigate]);
 
-  const totals = tasks.filter(task => task.team.includes(user?._id));
+  const totals = user && user.role === "Admin" ? tasks : tasks.filter(task => task.team.includes(user._id));
   
 
   const stats = [

@@ -8,6 +8,8 @@ export const projects = [
       teamMembers: [
           "65c3176a0fd860f958baa099", // Emily Wilson
           "65c317360fd860f958baa08e", // Alex Johnson
+          "662f32ffd1303cc",
+
       ],
       isActive: true,
       status:"planning"
@@ -20,6 +22,8 @@ export const projects = [
       teamMembers: [
           "65c30b96e639681a13def0b5", // Jane Smith
           "65c202d4aa62f32ffd1303cc", // Codewave Asante
+          "662f32ffd1303cc",
+
       ],
       isActive: true,
       status:"planning"
@@ -33,6 +37,8 @@ export const projects = [
       teamMembers: [
           "65c5f27fb5204a81bde86833", // New User
           "65c202d4aa62f32ffd1303cc", // Codewave Asante
+          "662f32ffd1303cc",
+
       ],
       isActive: true,
       status:"planning"
@@ -62,7 +68,6 @@ export const users = [
     role: "Admin",
     email: "admin@mts.com",
     isAdmin: true,
-    tasks: [],
     createdAt: "2024-02-06T09:58:44.794Z",
     updatedAt: "2024-02-07T06:13:26.757Z",
     __v: 0,
@@ -165,6 +170,7 @@ export const tasks = [
         "65c30b96e639681a13def0b5",
         "65c317360fd860f958baa08e",
         "65c3176a0fd860f958baa099",
+        "662f32ffd1303cc",
       ],
     isTrashed: false,
     activities: [],

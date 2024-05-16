@@ -27,19 +27,16 @@ const Login = () => {
   } = useForm();
   
   useEffect(() => {
-    if (user) navigate("/dashboard");
-  }, [user, navigate]);
-  useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) {
+      navigate("/dashboard");
+    }
   }, [user, navigate]);
 
   const submitHandler = data => {
-    console.log(data);
+    console.log("Form data:", data);  // Debugging output
     if (isRegistering) {
-      // Here, add your registration logic
       console.log('Registering new user:', data);
-      // After registration, you might want to automatically log them in or confirm their email, etc.
-      setIsRegistering(false); // Switch back to login form after registration
+      setIsRegistering(false);
     } else {
       const foundUser = users.find(u => u.email === data.email && u.password === data.password);
       if (foundUser) {
@@ -47,14 +44,16 @@ const Login = () => {
         navigate("/dashboard");
       } else {
         console.error("Invalid credentials");
+        alert("Invalid credentials");  // Simple feedback for debugging
       }
     }
   };
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
-    reset(); // Reset form fields when switching forms
+    reset();
   };
+
 
   return (
     <div className="w-full py-5 min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
@@ -134,7 +133,7 @@ const Login = () => {
           </form>
           </Transition>
 
-          <Transition
+          {/* <Transition
             show={isRegistering}
             as="div"
             enter="transition-opacity duration-300"
@@ -209,13 +208,13 @@ const Login = () => {
             />
 
             <Button 
-              type='submit'
+              type='register'
               label='Register'
               className='w-full h-10 bg-blue-500 text-white rounded-full'
             />
 
             </form>
-          </Transition>
+          </Transition> */}
           
           <Button onClick={toggleForm} className='mt-4 w-[15rem] p-0 flex bg-gray-300 rounded justify-center items-center flex-row-reverse gap-2  text-black hover:bg-blue-500 hover:text-white ' icon={isRegistering ? <MdOutlineLogin/>: <FaUserPlus />} label={isRegistering ? "Back to Login" : "Create New Account"}/>
             

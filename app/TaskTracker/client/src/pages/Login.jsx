@@ -33,9 +33,7 @@ const Login = () => {
   }, [user, navigate]);
 
   const submitHandler = data => {
-    console.log("Form data:", data);  // Debugging output
     if (isRegistering) {
-      console.log('Registering new user:', data);
       setIsRegistering(false);
     } else {
       const foundUser = users.find(u => u.email === data.email && u.password === data.password);
@@ -43,7 +41,6 @@ const Login = () => {
         dispatch(loginUser(foundUser));
         navigate("/dashboard");
       } else {
-        console.error("Invalid credentials");
         alert("Invalid credentials");  // Simple feedback for debugging
       }
     }

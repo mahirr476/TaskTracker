@@ -36,13 +36,13 @@ const linkData = [
         label: "Team",
         link: "/team",
         icon: <FaUsers />,
-        adminOnly: false,
+        adminOnly: true,
     },
     {
         label: "Trash",
         link: "/trashed",
         icon: <FaTrashAlt />,
-        adminOnly: false,
+        adminOnly: true,
     },
 ];
 
@@ -52,7 +52,7 @@ const Sidebar = () => {
     const path = location.pathname.split("/")[1];
 
     // Filter links based on the user role
-    const availableLinks = linkData.filter(link => !link.adminOnly || user.role === "admin");
+    const availableLinks = linkData.filter(link => !link.adminOnly || user.role === "Admin");
 
     return (
         <div className='w-full h-full flex flex-col gap-6 p-5 '>
@@ -81,7 +81,7 @@ const Sidebar = () => {
                 ))}
             </div>
 
-            {user.role === "admin" && (
+            {user.role === "Admin" && (
                 <div>
                     <button className='w-full flex gap-2 p-2 items-center text-lg text-gray-800 '>
                         <MdSettings />

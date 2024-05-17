@@ -27,53 +27,50 @@ const Login = () => {
   } = useForm();
   
   useEffect(() => {
-    if (user) navigate("/dashboard");
-  }, [user, navigate]);
-  useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) {
+      navigate("/dashboard");
+    }
   }, [user, navigate]);
 
   const submitHandler = data => {
-    console.log(data);
     if (isRegistering) {
-      // Here, add your registration logic
-      console.log('Registering new user:', data);
-      // After registration, you might want to automatically log them in or confirm their email, etc.
-      setIsRegistering(false); // Switch back to login form after registration
+      setIsRegistering(false);
     } else {
       const foundUser = users.find(u => u.email === data.email && u.password === data.password);
       if (foundUser) {
         dispatch(loginUser(foundUser));
         navigate("/dashboard");
       } else {
-        console.error("Invalid credentials");
+        alert("Invalid credentials");  // Simple feedback for debugging
       }
     }
   };
 
   const toggleForm = () => {
     setIsRegistering(!isRegistering);
-    reset(); // Reset form fields when switching forms
+    reset();
   };
 
-  return (
-    <div className="w-full min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
-      <div className="w-full md:w-auto flex gap-0 md:gap-40 flex-col md:flex-row items-center justify-center">
-        {/*Left Side*/}
-        <div className="h-full w-full lg:w-2/3 flex flex-col items-center justify-center">
-          <div className="w-full md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:mt-20">
-            <span className='flex gap-1 py-1 px-3 border rounded-full text-sm md:text-base lg:text-xl border-gray-300 text-gray-600'>
-              Paragon TaskTracker App
-            </span>
-            <p className='flex flex-col gap-0 md:gap-4 text-4xl md:text-6xl 2xl:text-7xl font-black text-center text-blue-700'>
-              <span>Cloud-based</span>
-              <span>Task Manager</span>
-            </p>
 
-            <div className='cell'>
-              <div className="circle rotate-in-up-left  ">
-              </div>
+  return (
+    <div className="w-full py-5 min-h-screen flex items-center justify-center flex-col lg:flex-row bg-[#f3f4f6]">
+      <div className="w-full md:w-auto flex gap-0 flex-col items-center justify-center">
+        {/*Left Side*/}
+        <div className="w-full flex flex-col items-center justify-center">
+          <div className="w-full mb-5  md:max-w-lg 2xl:max-w-3xl flex flex-col items-center justify-center gap-5 md:gap-y-10 2xl:mt-20">
+           
+            <div className='text-4xl md:text-6xl 2xl:text-5xl flex flex-col gap-2 justify-center items-center text-center  text-blue-500'>
+              <span >TaskTracker</span>
+              <span className='flex py-1 px-3 border rounded-full text-sm md:text-base lg:text-xl border-gray-300 text-gray-600'>
+                Paragon IT
+              </span>
             </div>
+            
+
+            {/* <div className='cell'>
+              <div className="circle rotate-in-up-left  ">
+              </div> 
+            </div> */}
           </div>
         </div>
         
@@ -91,7 +88,7 @@ const Login = () => {
           >
           <form onSubmit={handleSubmit(submitHandler)} className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'>
             <div className="">
-              <p className="text-blue-600 text-3xl font-bold text-center">Welcome Back!</p>
+              <p className="text-blue-500 text-3xl font-bold text-center">Welcome Back!</p>
               <p className='text-center text-base text-gray-700'>Keep all your credentials safe</p>
             </div>
 
@@ -121,19 +118,19 @@ const Login = () => {
                 error={errors.password ? errors.password.message : ""} 
               />
 
-              <span className='text-sm text-gray-500 hover:text-blue-600 hover:underline cursor-pointer'>
+              <span className='text-sm text-gray-500 hover:text-blue-500 hover:underline cursor-pointer'>
                 Forget Password?
               </span>
 
               <Button 
                 type='submit'
                 label='Submit'
-                className='w-full h-10 bg-blue-700 text-white rounded-full' />
+                className='w-full h-10 bg-blue-500 text-white rounded-full' />
             </div>
           </form>
           </Transition>
 
-          <Transition
+          {/* <Transition
             show={isRegistering}
             as="div"
             enter="transition-opacity duration-300"
@@ -146,7 +143,7 @@ const Login = () => {
           <form onSubmit={handleSubmit(submitHandler)} className='form-container w-full md:w-[400px] flex flex-col gap-y-8 bg-white px-10 pt-14 pb-14'>
 
             <div className="text-center">
-              <p className="text-3xl font-bold text-blue-600">Register</p>
+              <p className="text-3xl font-bold text-blue-500">Register</p>
               <p className='text-gray-700'>Create your account</p>
             </div>
 
@@ -208,15 +205,15 @@ const Login = () => {
             />
 
             <Button 
-              type='submit'
+              type='register'
               label='Register'
-              className='w-full h-10 bg-blue-700 text-white rounded-full'
+              className='w-full h-10 bg-blue-500 text-white rounded-full'
             />
 
             </form>
-          </Transition>
+          </Transition> */}
           
-          <Button onClick={toggleForm} className='mt-4 flex justify-center items-center flex-row-reverse gap-2 text-blue-700 hover:underline' icon={isRegistering ? <MdOutlineLogin/>: <FaUserPlus />} label={isRegistering ? "Back to Login" : "Create New Account"}/>
+          <Button onClick={toggleForm} className='mt-4 w-[15rem] p-0 flex bg-gray-300 rounded justify-center items-center flex-row-reverse gap-2  text-black hover:bg-blue-500 hover:text-white ' icon={isRegistering ? <MdOutlineLogin/>: <FaUserPlus />} label={isRegistering ? "Back to Login" : "Create New Account"}/>
             
 
         </div>
